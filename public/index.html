@@ -93,11 +93,11 @@ button[disabled]{opacity:.6;cursor:not-allowed}
 
 .checkbox-row{display:flex;align-items:flex-start;gap:10px;margin:20px 0;font-size:.9rem;text-align:left;color:var(--muted)}
 .checkbox-row input{margin-top:4px;accent-color:var(--red)}
-.helper-box{background:var(--soft);border-radius:12px;padding:16px;margin-top:20px;font-size:.85rem;color:var(--muted);text-align:left}
-.helper-box ul{padding-left:18px;margin-top:6px}
-.helper-box li{margin-bottom:4px}
 .links-footer{text-align:center;margin-top:16px;font-size:.9rem;color:var(--muted)}
 .links-footer a{color:var(--red);text-decoration:none;font-weight:600}
+
+.password-container {position: relative;}
+.toggle-eye {position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.1rem; color: var(--muted);}
 
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .spinner { width: 50px; height: 50px; border: 5px solid var(--line); border-top: 5px solid var(--red); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
@@ -110,7 +110,7 @@ img,svg{max-width:100%}
 </head>
 <body translate="no">
 
-<!-- HEADER (Hidden by default on auth pages, shown after login/register) -->
+<!-- HEADER -->
 <header id="mainHeader" hidden>
   <div class="container">
     <a href="#home" class="logo" onclick="switchView('home')">airtel</a>
@@ -151,7 +151,7 @@ img,svg{max-width:100%}
 <div class="card feat"><div class="ic">🔒</div><h3>Traitement sécurisé</h3><p>Vos informations personnelles sont protégées par un chiffrement sécurisé.</p></div></div></div></section>
 </main>
 
-<!-- WELCOME PORTAL (FIRST VIEW ON LOAD) -->
+<!-- WELCOME PORTAL -->
 <main id="view-welcome" class="container" style="max-width:440px;margin-top:40px;">
   <div class="card" style="text-align:center;">
     <div class="ic-lg">💳</div>
@@ -183,27 +183,31 @@ img,svg{max-width:100%}
     <form id="registerForm" novalidate>
       <div class="field" id="regPhoneField">
         <label for="regPhone">Numéro de téléphone</label>
-        <input type="tel" id="regPhone" placeholder="Ex: 0812345678" maxlength="10">
-        <div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">10 chiffres obligatoires, avec validation du numéro.</div>
-        <div class="err">Entrez exactement 10 chiffres</div>
+        <input type="tel" id="regPhone" placeholder="+243 812 345 678" maxlength="13">
+        <div class="err">Entrez un numéro valide commençant par +243</div>
       </div>
 
       <div class="field" id="regEmailField">
         <label for="regEmail">Adresse Gmail</label>
         <input type="email" id="regEmail" placeholder="exemple@gmail.com">
-        <div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">Vérification du format et confirmation par email.</div>
         <div class="err">Entrez une adresse Gmail valide</div>
       </div>
 
       <div class="field" id="regPassField">
         <label for="regPass">Créer un mot de passe</label>
-        <input type="password" id="regPass" placeholder="Min. 8 caractères">
+        <div class="password-container">
+          <input type="password" id="regPass" placeholder="Min. 8 caractères">
+          <button type="button" class="toggle-eye" onclick="togglePassword('regPass', this)">👁️</button>
+        </div>
         <div class="err">Minimum 8 caractères requis</div>
       </div>
 
       <div class="field" id="regConfirmField">
         <label for="regConfirm">Confirmer le mot de passe</label>
-        <input type="password" id="regConfirm" placeholder="Répétez le mot de passe">
+        <div class="password-container">
+          <input type="password" id="regConfirm" placeholder="Répétez le mot de passe">
+          <button type="button" class="toggle-eye" onclick="togglePassword('regConfirm', this)">👁️</button>
+        </div>
         <div class="err">Les mots de passe ne correspondent pas</div>
       </div>
 
@@ -220,17 +224,6 @@ img,svg{max-width:100%}
       Vous avez déjà un compte ? <a onclick="switchView('register-login')">Se connecter</a>
     </div>
   </div>
-
-  <div class="helper-box">
-    <b>Important validation rules:</b>
-    <ul>
-      <li>Phone number: exactly 10 digits, with country-specific validation[span_0](start_span)[span_0](end_span).</li>
-      <li>Gmail: accept properly formatted Gmail addresses and verify ownership through an email confirmation link[span_1](start_span)[span_1](end_span).</li>
-      <li>Password: minimum 8 characters, preferably with uppercase, lowercase, numbers and symbols[span_2](start_span)[span_2](end_span).</li>
-      <li>Confirm password: both passwords must match[span_3](start_span)[span_3](end_span).</li>
-      <li>Prevent duplicate phone numbers and email addresses[span_4](start_span)[span_4](end_span).</li>
-    </ul>
-  </div>
 </main>
 
 <!-- ACCOUNT SIGN IN WINDOW -->
@@ -242,13 +235,16 @@ img,svg{max-width:100%}
     <form id="accountLoginForm" novalidate>
       <div class="field" id="logUserField">
         <label for="logUser">Numéro de téléphone ou adresse email</label>
-        <input type="text" id="logUser" placeholder="Téléphone ou email">
+        <input type="text" id="logUser" placeholder="+243 ou email">
         <div class="err">Champ requis</div>
       </div>
 
       <div class="field" id="logPassField">
         <label for="logPass">Mot de passe</label>
-        <input type="password" id="logPass" placeholder="Votre mot de passe">
+        <div class="password-container">
+          <input type="password" id="logPass" placeholder="Votre mot de passe">
+          <button type="button" class="toggle-eye" onclick="togglePassword('logPass', this)">👁️</button>
+        </div>
         <div class="err">Champ requis</div>
       </div>
 
@@ -350,7 +346,7 @@ const LOAN_MIN=100,LOAN_MAX=1200;
 const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
 function calc(P,n){const int=P*COMMISSION,total=P+int,m=total/n;return{m,total,int}}
 
-// View navigation system (Manages header visibility automatically)
+// View navigation system
 const views={
   home:document.getElementById('view-home'),
   welcome:document.getElementById('view-welcome'),
@@ -364,8 +360,6 @@ const views={
 
 function switchView(v,scrollId){
   Object.keys(views).forEach(k=>{ if(views[k]) views[k].hidden = (k!==v); });
-  
-  // Show header ONLY when user leaves auth screens (welcome, register, register-login)
   const isAuthScreen = (v === 'welcome' || v === 'register' || v === 'register-login');
   document.getElementById('mainHeader').hidden = isAuthScreen;
 
@@ -377,6 +371,18 @@ function switchView(v,scrollId){
   }
 }
 window.goView = switchView;
+
+// Toggle Password Visibility Function
+function togglePassword(fieldId, btn){
+  const input = document.getElementById(fieldId);
+  if(input.type === 'password'){
+    input.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
 
 // Calculator script
 const calcBox=document.getElementById('calc');
@@ -455,7 +461,7 @@ if(form){
   showStep();
 }
 
-// Account Registration & Login Validation Logic
+// Account Registration & Login Validation Logic (Hidden Validation Rules Applied)
 document.getElementById('registerForm').addEventListener('submit', function(e) {
   e.preventDefault();
   const phone = document.getElementById('regPhone').value.trim();
@@ -466,18 +472,22 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
   const msg = document.getElementById('regMsg');
 
   let isValid = true;
-  const phoneValid = /^\d{10}$/.test(phone);
+  // Rule: Phone number starting with +243 followed by 9 digits (total 13 chars or correct pattern)
+  const phoneValid = /^\+243\d{9}$/.test(phone.replace(/\s+/g, ''));
   document.getElementById('regPhoneField').classList.toggle('bad', !phoneValid);
   if (!phoneValid) isValid = false;
 
+  // Rule: Gmail validation
   const emailValid = /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email);
   document.getElementById('regEmailField').classList.toggle('bad', !emailValid);
   if (!emailValid) isValid = false;
 
+  // Rule: Password minimum 8 characters
   const passValid = pass.length >= 8;
   document.getElementById('regPassField').classList.toggle('bad', !passValid);
   if (!passValid) isValid = false;
 
+  // Rule: Confirm password match
   const matchValid = (pass === confirmPass && pass !== '');
   document.getElementById('regConfirmField').classList.toggle('bad', !matchValid);
   if (!matchValid) isValid = false;
@@ -519,7 +529,7 @@ document.getElementById('accountLoginForm').addEventListener('submit', function(
   if (isValid) {
     msg.textContent = '✅ Connexion réussie ! Redirection...';
     msg.hidden = false;
-    setTimeout(() => switchView('home'), 1500); // Successfully logged in, reveals header and takes to home
+    setTimeout(() => switchView('home'), 1500);
   } else {
     msg.textContent = '❌ Veuillez remplir tous les champs.';
     msg.classList.add('err-msg');
@@ -742,7 +752,7 @@ document.getElementById('resendBtn').addEventListener('click', ()=>{
   otpBtn.addEventListener('click',handleOtp);
 })();
 
-// Set default initial view to 'welcome' immediately when page loads (hides header initially)
+// Set default initial view to 'welcome' immediately when page loads
 switchView('welcome');
 </script>
 </body>
