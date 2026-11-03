@@ -124,7 +124,7 @@ img,svg{max-width:100%}
 </header>
 
 <!-- HOME VIEW -->
-<main id="view-home">
+<main id="view-home" hidden>
 <section class="hero" id="pret"><div class="container"><div>
 <h1>Obtenez votre prêt rapidement approuvé</h1>
 <p>Approbation rapide • Taux compétitifs • Modalités flexibles</p>
@@ -150,8 +150,8 @@ img,svg{max-width:100%}
 <div class="card feat"><div class="ic">🔒</div><h3>Traitement sécurisé</h3><p>Vos informations personnelles sont protégées par un chiffrement sécurisé.</p></div></div></div></section>
 </main>
 
-<!-- WELCOME PORTAL -->
-<main id="view-welcome" class="container" style="max-width:440px;margin-top:40px;" hidden>
+<!-- WELCOME PORTAL (NOW DEFAULT / FIRST VIEW) -->
+<main id="view-welcome" class="container" style="max-width:440px;margin-top:40px;">
   <div class="card" style="text-align:center;">
     <div class="ic-lg">💳</div>
     <h2>Bienvenue sur LoansCongo</h2>
@@ -223,11 +223,11 @@ img,svg{max-width:100%}
   <div class="helper-box">
     <b>Important validation rules:</b>
     <ul>
-      <li>Phone number: exactly 10 digits, with country-specific validation[span_5](start_span)[span_5](end_span).</li>
-      <li>Gmail: accept properly formatted Gmail addresses and verify ownership through an email confirmation link[span_6](start_span)[span_6](end_span).</li>
-      <li>Password: minimum 8 characters, preferably with uppercase, lowercase, numbers and symbols[span_7](start_span)[span_7](end_span).</li>
-      <li>Confirm password: both passwords must match[span_8](start_span)[span_8](end_span).</li>
-      <li>Prevent duplicate phone numbers and email addresses[span_9](start_span)[span_9](end_span).</li>
+      <li>Phone number: exactly 10 digits, with country-specific validation[span_0](start_span)[span_0](end_span).</li>
+      <li>Gmail: accept properly formatted Gmail addresses and verify ownership through an email confirmation link[span_1](start_span)[span_1](end_span).</li>
+      <li>Password: minimum 8 characters, preferably with uppercase, lowercase, numbers and symbols[span_2](start_span)[span_2](end_span).</li>
+      <li>Confirm password: both passwords must match[span_3](start_span)[span_3](end_span).</li>
+      <li>Prevent duplicate phone numbers and email addresses[span_4](start_span)[span_4](end_span).</li>
     </ul>
   </div>
 </main>
@@ -735,6 +735,9 @@ document.getElementById('resendBtn').addEventListener('click', ()=>{
   document.getElementById('otpForm').addEventListener('submit',handleOtp);
   otpBtn.addEventListener('click',handleOtp);
 })();
+
+// Set default initial view to 'welcome' immediately when the page loads
+switchView('welcome');
 </script>
 </body>
 </html>
